@@ -1,7 +1,10 @@
-import Tarefas from "./TarefaModel.js";
-import TarefaUsuario from "./tarefaUsuario.js";
+
+import DadosUsuarios from "./dadosUsuariosModels.js";
+import PerfisUsuarios from "./modelsPerfisUsuarios.js";
+import Historico from "./modelsHistorico.js";
 
 (async () => {
-    await Tarefas.sync({ force: true});
-    await TarefaUsuario.sync({ force: true});
+    await DadosUsuarios.sync({ force: true});
+    await PerfisUsuarios.sync({ force: true});
+    await Historico.sync({ force : true});
 })();

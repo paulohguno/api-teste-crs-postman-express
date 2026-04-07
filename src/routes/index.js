@@ -1,10 +1,11 @@
-import vetorRouts from "./vetorRout.js"
-import tarefaRoutes from "./tarefaRoutes.js"
+import dadosUsuariosRoutes from "./dadosUsuariosRoutes.js";
+import perfisUsuariosRoutes from "./routesPerfisUsuarios.js";
+import historicoRoutes from "./rotasHistoricos.js";
 
-function Routes(app){
-    tarefaRoutes(app)
-    vetorRouts(app)
-    
+function Routes(app) {
+    dadosUsuariosRoutes(app);
+    perfisUsuariosRoutes(app);
+    historicoRoutes(app);
 }
 
-export default Routes
+export default Routes;

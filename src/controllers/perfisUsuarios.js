@@ -1,7 +1,4 @@
-import Tarefa from "../models/TarefaModel.js";
-
-
-
+import PerfisUsuarios from '../models/modelsPerfisUsuarios.js';
 
 const get = async (req, res ) => {
     try{
@@ -60,7 +57,7 @@ const create = async (req, res) => {
     }
 }
 
-const puxarcomid = async (req, res) => {
+const getcomid = async (req, res) => {
     try {
         const { id } = req.params;
         const idNumero = Number(id);
@@ -170,7 +167,7 @@ const update = async (req, res) => {
 export default {
     get,
     create,
-    puxarcomid,
+    getcomid,
     destroy,
     update
 }

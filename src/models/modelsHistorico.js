@@ -49,13 +49,5 @@ Historico.belongsTo(PerfisUsuarios, {
     onUpdate: 'NO ACTION'
 });
 
-PerfisUsuarios.hasMany(Historico, {
-    as: 'historico',
-    foreignKey: {
-        name: 'id_perfil_usuario',
-        allowNull: false,
-        field: 'id_perfil_usuario'
-    }
-});
 
 export default Historico

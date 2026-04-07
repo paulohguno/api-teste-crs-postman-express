@@ -1,4 +1,4 @@
-import dadosUsuariosController from "../controllers/dadosUsuarioscontroller.js";
+import dadosUsuariosController from "../controllers/controllerUsuarios.js";
 
 
 export default (app) => {

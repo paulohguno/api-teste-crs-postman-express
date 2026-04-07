@@ -1,6 +1,6 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
-import DadosUsuarios from "./dadosUsuariosModels.js";
+import DadosUsuarios from "./modelsUsuarios.js";
 
 const PerfisUsuarios = sequealize.define(
     'perfis_usuarios',
@@ -48,13 +48,6 @@ PerfisUsuarios.belongsTo(DadosUsuarios, {
     onUpdate: 'NO ACTION'
 });
 
-DadosUsuarios.hasMany(PerfisUsuarios, {
-    as: 'perfis',
-    foreignKey: {
-        name: 'id_dados_usuario',
-        allowNull: false,
-        field: 'id_dados_usuario'
-    }
-});
+
 
 export default PerfisUsuarios

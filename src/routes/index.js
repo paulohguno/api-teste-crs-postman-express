@@ -1,6 +1,7 @@
-import dadosUsuariosRoutes from "./dadosUsuariosRoutes.js";
+import dadosUsuariosRoutes from "./routesUsuarios.js";
 import perfisUsuariosRoutes from "./routesPerfisUsuarios.js";
-import historicoRoutes from "./rotasHistoricos.js";
+import historicoRoutes from "./routesHistoricos.js";
+import Planos from "./routesPlanos.js"
 
 function Routes(app) {
     dadosUsuariosRoutes(app);

@@ -1,4 +1,4 @@
-import perfisUsuariosController from "../controllers/controllerPerfisUsuarios.js";
+import Diretores from "../controllers/controllerEpisodios.js"
 
 export default (app) => {
     app.get('/perfisUsuarios', perfisUsuariosController.get);

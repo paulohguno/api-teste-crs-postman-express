@@ -1,4 +1,4 @@
-import PerfisUsuarios from '../models/modelsPerfisUsuarios.js';
+import Temporada from '../models/modelsTemporada.js';
 
 const get = async (req, res ) => {
     try{
@@ -17,11 +17,6 @@ const get = async (req, res ) => {
         })
     }
 }
-
-
-
-
-
 const create = async (req, res) => {
     try {
         const {

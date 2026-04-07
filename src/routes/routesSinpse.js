@@ -1,4 +1,4 @@
-import perfisUsuariosController from "../controllers/controllerPerfisUsuarios.js";
+import Diretores from "../controllers/controllerSinpse.js"
 
 export default (app) => {
     app.get('/perfisUsuarios', perfisUsuariosController.get);

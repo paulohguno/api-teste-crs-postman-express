@@ -1,5 +1,6 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
+import Planos from "./modelsPlanos.js";
 
 const Dados_Usuarios = sequealize.define(
     'dados_usuarios',
@@ -27,6 +28,15 @@ const Dados_Usuarios = sequealize.define(
         },
         localizacao : {
             type: DataTypes.STRING
+        },
+        id_plano_usuario:{
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'id_plano_usuario',
+            references: {
+                model : 'Planos',
+                key: 'id'
+            }
         }
     },
     {
@@ -36,5 +46,18 @@ const Dados_Usuarios = sequealize.define(
         updatedAt : 'updated_at'
     }
 )
+
+Dados_Usuarios.belongsTo(Planos, {
+    as: 'plano_usuario',
+    foreignKey: {
+        name: 'id_plano_usuario',
+        allowNull: false,
+        field: 'id_plano_usuario'
+    },
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
+});
+
+
 
 export default Dados_Usuarios

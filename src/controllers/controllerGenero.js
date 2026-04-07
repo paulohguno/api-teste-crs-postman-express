@@ -1,5 +1,4 @@
-import Dados_Usuarios from "../models/dadosUsuariosModels.js";
-
+import Genero from '../models/modelsGenero.js'
 const get = async (req, res ) => {
     try{
         const dados = await Tarefa.findAll();
@@ -17,11 +16,6 @@ const get = async (req, res ) => {
         })
     }
 }
-
-
-
-
-
 const create = async (req, res) => {
     try {
         const {

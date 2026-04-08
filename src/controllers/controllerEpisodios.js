@@ -4,53 +4,44 @@ const get = async (req, res ) => {
     try{
         const dados = await Episodios.findAll();
         return res.status(200).send({
+            message: 'episodios listados com sucesso',
             type: 'sucess',
-            message: 'top ',
             data : dados
-
-        })
+        });
     } catch (error) {
-        res.status(500).send({
+        return res.status(500).send({
             type: 'error',
             message: 'erro de servidor',
             data: error.message,
-        })
+        });
     }
-}
+};
 const create = async (req, res) => {
     try {
-        const {
-            descricao,
-            finalizado
-        } = req.body;
+        if (!req.body || Object.keys(req.body).length === 0) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'dados sao obrigatorios',
+                data: []
+            });
+        }
 
-    if (!descricao) {
-        return res.status(400).send({
-            type: 'error',
-            message: 'descricao é obrigatoria',
-            data: []
-        })
-    }
+        const retorno = await Episodios.create(req.body);
 
-    const retorno = await Tarefa.create({
-        descricao,
-        finalizado
-    });
-
-    return res.status(201).send({
-        type: 'sucess',
-        message: 'tarefa criada com sucesso',
-        data: retorno
-    });
+        return res.status(201).send({
+            type: 'sucess',
+            message: 'episodio criado com sucesso',
+            data: retorno
+        });
 
     }catch (error) {
-        res.status(500).send({
+        return res.status(500).send({
             type: 'error',
             message: 'erro de servidor',
             data: error.message,
-        })
+        });
     }
-}
+};
 
 const getcomid = async (req, res) => {
     try {
@@ -65,20 +56,20 @@ const getcomid = async (req, res) => {
             });
         }
 
-        const tarefa = await Tarefa.findByPk(idNumero);
+        const episodio = await Episodios.findByPk(idNumero);
 
-        if (!tarefa) {
+        if (!episodio) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'episodio nao encontrado',
                 data: []
             });
         }
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa encontrada',
-            data: tarefa
+            message: 'episodio encontrado',
+            data: episodio
         });
     } catch (error) {
         return res.status(500).send({
@@ -87,28 +78,33 @@ const getcomid = async (req, res) => {
             data: error.message,
         });
     }
-}
+};
 
 const destroy = async (req, res) => {
     try{
-        const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
-        const dado = await Tarefa.findOne({
-            where: { 
-                id
-            }
-        });
+        const idNumero = Number(req.params.id);
+
+        if (!Number.isInteger(idNumero) || idNumero <= 0) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'id invalido',
+                data: []
+            });
+        }
+
+        const dado = await Episodios.findByPk(idNumero);
 
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'episodio nao encontrado',
                 data: []
             });
         }
         await dado.destroy();
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa deletada com sucesso',
+            message: 'episodio deletado com sucesso',
             data: []
         });
 
@@ -118,26 +114,31 @@ const destroy = async (req, res) => {
             type: 'error',
             message: 'erro de servidor',
             data: error.message,
-        })
+        });
     }
-}
+};
 
 
 const update = async (req, res) => {
     try{
-        const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
         const requisicao = req.body;
 
-        const dado = await Tarefa.findOne({
-            where: { 
-                id
-            }
-        });
+        const idNumero = Number(req.params.id);
+
+        if (!Number.isInteger(idNumero) || idNumero <= 0) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'id invalido',
+                data: []
+            });
+        }
+
+        const dado = await Episodios.findByPk(idNumero);
 
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'episodio nao encontrado',
                 data: []
             });
         }
@@ -147,7 +148,7 @@ const update = async (req, res) => {
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa atualizada com sucesso',
+            message: 'episodio atualizado com sucesso',
             data: dado
         });
     } catch (error) {
@@ -155,9 +156,9 @@ const update = async (req, res) => {
             type: 'error',
             message: 'erro de servidor',
             data: error.message,
-        })
+        });
     }
-}
+};
 
 export default {
     get,

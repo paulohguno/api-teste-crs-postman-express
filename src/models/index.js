@@ -13,9 +13,10 @@ import Autores from "./modelsAutores.js";
     await Planos.sync({ force: true});
     await DadosUsuarios.sync({ force: true});
     await PerfisUsuarios.sync({ force: true});
-    await Historico.sync({ force : true});
     await Genero.sync({ force: true});
     await Temporada.sync({ force: true});
-    await Sinopse.sync({ force: true});
     await Autores.sync({ force: true});
+    await Sinopse.sync({ force: true});
+    await Historico.sync({ force : true});
+    
 })();

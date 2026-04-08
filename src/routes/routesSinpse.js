@@ -1,9 +1,9 @@
-import Diretores from "../controllers/controllerSinpse.js"
+import sinopseController from "../controllers/controllerSinpse.js"
 
 export default (app) => {
-    app.get('/perfisUsuarios', perfisUsuariosController.get);
-    app.post('/perfisUsuarios/create', perfisUsuariosController.create);
-    app.get('/perfisUsuarios/getcomid/:id', perfisUsuariosController.getcomid);
-    app.delete('/perfisUsuarios/destroy/:id', perfisUsuariosController.destroy);
-    app.patch('/perfisUsuarios/update/:id', perfisUsuariosController.update);
+    app.get('/sinopse', sinopseController.get);
+    app.post('/sinopse/create', sinopseController.create);
+    app.get('/sinopse/getcomid/:id', sinopseController.getcomid);
+    app.delete('/sinopse/destroy/:id', sinopseController.destroy);
+    app.patch('/sinopse/update/:id', sinopseController.update);
 };

@@ -1,6 +1,7 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
 import PerfisUsuarios from "./modelsPerfisUsuarios.js";
+import Sinopse from "./modelsSinpse.js";
 
 const Historico = sequealize.define(
     'historico',
@@ -27,6 +28,15 @@ const Historico = sequealize.define(
             model: 'perfis_usuarios',
             key: 'id'
         }
+    },
+    id_sinopse:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'id_sinopse',
+        references: {
+            model:"sinopse",
+            key: 'id'
+        },
     }
 },
     {
@@ -44,6 +54,18 @@ Historico.belongsTo(PerfisUsuarios, {
         name: 'id_perfil_usuario',
         allowNull: false,
         field: 'id_perfil_usuario'
+    },
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
+});
+
+
+Historico.belongsTo(Sinopse, {
+    as: 'Sinopse',
+    foreignKey: {
+        name: 'id_sinopse',
+        allowNull: false,
+        field: 'id_sinopse'
     },
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION'

@@ -2,7 +2,7 @@ import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
 
 
-const Series = sequealize.define(
+const Autores = sequealize.define(
     'autores',
     {
     id:{
@@ -11,7 +11,7 @@ const Series = sequealize.define(
         primaryKey: true,
     },
     nome : {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     }
 },
@@ -26,4 +26,4 @@ const Series = sequealize.define(
 
 
 
-export default Series
+export default Autores

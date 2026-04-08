@@ -1,12 +1,12 @@
-import Diretores from '../models/modelsDiretores.js'
+import Autores from '../models/modelsAutores.js';
 
 
 const get = async (req, res ) => {
     try{
-        const dados = await Tarefa.findAll();
+        const dados = await Autores.findAll();
         return res.status(200).send({
             type: 'sucess',
-            message: 'top ',
+            message: 'autores listados com sucesso',
             data : dados
 
         })
@@ -20,27 +20,19 @@ const get = async (req, res ) => {
 }
 const create = async (req, res) => {
     try {
-        const {
-            descricao,
-            finalizado
-        } = req.body;
-
-    if (!descricao) {
+        if (!req.body || Object.keys(req.body).length === 0) {
         return res.status(400).send({
             type: 'error',
-            message: 'descricao é obrigatoria',
+            message: 'dados sao obrigatorios',
             data: []
-        })
-    }
+        });
+        }
 
-    const retorno = await Tarefa.create({
-        descricao,
-        finalizado
-    });
+    const retorno = await Autores.create(req.body);
 
     return res.status(201).send({
         type: 'sucess',
-        message: 'tarefa criada com sucesso',
+        message: 'autor criado com sucesso',
         data: retorno
     });
 
@@ -66,20 +58,20 @@ const getcomid = async (req, res) => {
             });
         }
 
-        const tarefa = await Tarefa.findByPk(idNumero);
+        const autor = await Autores.findByPk(idNumero);
 
-        if (!tarefa) {
+        if (!autor) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'autor nao encontrado',
                 data: []
             });
         }
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa encontrada',
-            data: tarefa
+            message: 'autor encontrado',
+            data: autor
         });
     } catch (error) {
         return res.status(500).send({
@@ -92,24 +84,29 @@ const getcomid = async (req, res) => {
 
 const destroy = async (req, res) => {
     try{
-        const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
-        const dado = await Tarefa.findOne({
-            where: { 
-                id
-            }
-        });
+        const idNumero = Number(req.params.id);
+
+        if (!Number.isInteger(idNumero) || idNumero <= 0) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'id invalido',
+                data: []
+            });
+        }
+
+        const dado = await Autores.findByPk(idNumero);
 
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'autor nao encontrado',
                 data: []
             });
         }
         await dado.destroy();
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa deletada com sucesso',
+            message: 'autor deletado com sucesso',
             data: []
         });
 
@@ -126,19 +123,23 @@ const destroy = async (req, res) => {
 
 const update = async (req, res) => {
     try{
-        const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
+        const idNumero = Number(req.params.id);
         const requisicao = req.body;
 
-        const dado = await Tarefa.findOne({
-            where: { 
-                id
-            }
-        });
+        if (!Number.isInteger(idNumero) || idNumero <= 0) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'id invalido',
+                data: []
+            });
+        }
+
+        const dado = await Autores.findByPk(idNumero);
 
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'autor nao encontrado',
                 data: []
             });
         }
@@ -148,7 +149,7 @@ const update = async (req, res) => {
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa atualizada com sucesso',
+            message: 'autor atualizado com sucesso',
             data: dado
         });
     } catch (error) {

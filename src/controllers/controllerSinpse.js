@@ -1,11 +1,11 @@
-import Sinp from '../models/modelsSinpse.js';
+import Sinopse from '../models/modelsSinpse.js';
 
 const get = async (req, res ) => {
     try{
-        const dados = await Tarefa.findAll();
+        const dados = await Sinopse.findAll();
         return res.status(200).send({
             type: 'sucess',
-            message: 'top ',
+            message: 'sinopses listadas com sucesso',
             data : dados
 
         })
@@ -19,27 +19,19 @@ const get = async (req, res ) => {
 }
 const create = async (req, res) => {
     try {
-        const {
-            descricao,
-            finalizado
-        } = req.body;
-
-    if (!descricao) {
+    if (!req.body || Object.keys(req.body).length === 0) {
         return res.status(400).send({
             type: 'error',
-            message: 'descricao é obrigatoria',
+            message: 'dados sao obrigatorios',
             data: []
         })
     }
 
-    const retorno = await Tarefa.create({
-        descricao,
-        finalizado
-    });
+    const retorno = await Sinopse.create(req.body);
 
     return res.status(201).send({
         type: 'sucess',
-        message: 'tarefa criada com sucesso',
+        message: 'sinopse criada com sucesso',
         data: retorno
     });
 
@@ -65,20 +57,20 @@ const getcomid = async (req, res) => {
             });
         }
 
-        const tarefa = await Tarefa.findByPk(idNumero);
+        const sinopse = await Sinopse.findByPk(idNumero);
 
-        if (!tarefa) {
+        if (!sinopse) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'sinopse nao encontrada',
                 data: []
             });
         }
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa encontrada',
-            data: tarefa
+            message: 'sinopse encontrada',
+            data: sinopse
         });
     } catch (error) {
         return res.status(500).send({
@@ -92,7 +84,7 @@ const getcomid = async (req, res) => {
 const destroy = async (req, res) => {
     try{
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
-        const dado = await Tarefa.findOne({
+        const dado = await Sinopse.findOne({
             where: { 
                 id
             }
@@ -101,14 +93,14 @@ const destroy = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'sinopse nao encontrada',
                 data: []
             });
         }
         await dado.destroy();
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa deletada com sucesso',
+            message: 'sinopse deletada com sucesso',
             data: []
         });
 
@@ -128,7 +120,7 @@ const update = async (req, res) => {
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
         const requisicao = req.body;
 
-        const dado = await Tarefa.findOne({
+        const dado = await Sinopse.findOne({
             where: { 
                 id
             }
@@ -137,7 +129,7 @@ const update = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'sinopse nao encontrada',
                 data: []
             });
         }
@@ -147,7 +139,7 @@ const update = async (req, res) => {
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa atualizada com sucesso',
+            message: 'sinopse atualizada com sucesso',
             data: dado
         });
     } catch (error) {

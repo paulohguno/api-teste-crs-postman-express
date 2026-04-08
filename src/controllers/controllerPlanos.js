@@ -19,29 +19,21 @@ const get = async (req, res ) => {
 }
 const create = async (req, res) => {
     try {
-        const {
-            descricao,
-            finalizado
-        } = req.body;
+        if (!req.body || Object.keys(req.body).length === 0) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'dados sao obrigatorios',
+                data: []
+            })
+        }
 
-    if (!descricao) {
-        return res.status(400).send({
-            type: 'error',
-            message: 'descricao é obrigatoria',
-            data: []
-        })
-    }
+        const retorno = await Planos.create(req.body);
 
-    const retorno = await Tarefa.create({
-        descricao,
-        finalizado
-    });
-
-    return res.status(201).send({
-        type: 'sucess',
-        message: 'tarefa criada com sucesso',
-        data: retorno
-    });
+        return res.status(201).send({
+            type: 'sucess',
+            message: 'plano criado com sucesso',
+            data: retorno
+        });
 
     }catch (error) {
         res.status(500).send({

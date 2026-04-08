@@ -19,27 +19,19 @@ const get = async (req, res ) => {
 }
 const create = async (req, res) => {
     try {
-        const {
-            descricao,
-            finalizado
-        } = req.body;
-
-    if (!descricao) {
+    if (!req.body || Object.keys(req.body).length === 0) {
         return res.status(400).send({
             type: 'error',
-            message: 'descricao é obrigatoria',
+            message: 'dados sao obrigatorios',
             data: []
         })
     }
 
-    const retorno = await Tarefa.create({
-        descricao,
-        finalizado
-    });
+    const retorno = await Series.create(req.body);
 
     return res.status(201).send({
         type: 'sucess',
-        message: 'tarefa criada com sucesso',
+        message: 'registro criado com sucesso',
         data: retorno
     });
 

@@ -2,6 +2,7 @@ import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
 import Temporada from "./modelsTemporada.js";
 import Genero from "./modelsGenero.js";
+import Autores from "./modelsAutores.js";
 
 
 const Sinopse = sequealize.define(
@@ -32,9 +33,20 @@ const Sinopse = sequealize.define(
 Sinopse.belongsTo(Temporada, {
     as: 'temporada',
     foreignKey: {
-        name: 'id_Temporada',
+        name: 'id_temporada',
         allowNull: false,
-        field: 'Id_Temporada'
+        field: 'id_temporada'
+    },
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
+});
+
+Sinopse.belongsTo(Autores, {
+    as: 'autor',
+    foreignKey: {
+        name: 'id_autores',
+        allowNull: false,
+        field: 'id_autores'
     },
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION'
@@ -43,9 +55,9 @@ Sinopse.belongsTo(Temporada, {
 Sinopse.belongsTo(Genero, {
     as: 'genero',
     foreignKey: {
-        name: 'id_Genero',
+        name: 'id_genero',
         allowNull: false,
-        field: 'Id_Genero'
+        field: 'id_genero'
     },
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION'

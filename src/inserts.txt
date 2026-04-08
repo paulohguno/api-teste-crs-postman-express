@@ -1,0 +1,50 @@
+-- 1. Planos
+INSERT INTO Planos (nivel_plano, quantidade_telas, valor_plano,Plano_ativo, created_at, updated_at)
+VALUES (1, 4, 45.90, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 2. Dados de Usuários
+INSERT INTO dados_usuarios (nome, cpf, status_da_conta, data_pagamento, localizacao, id_plano_usuario, created_at, updated_at)
+VALUES ('João Silva', '12345678900', true, '2026-04-08', 'Chapecó - SC', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 3. Perfis de Usuários
+INSERT INTO perfis_usuarios (nome, id_dados_usuario, infantil, created_at, updated_at)
+VALUES ('João', 1, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 4. Autores
+INSERT INTO autores (nome, created_at, updated_at)
+VALUES ('George R. R. Martin', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 5. Gênero
+INSERT INTO genero (Genero, created_at, updated_at)
+VALUES ('Fantasia', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 6. Sinopse
+INSERT INTO sinopse (data_lancamento, informacoes, created_at, updated_at)
+VALUES ('2011-04-17', 'Nove famílias nobres lutam pelo controle de Westeros.', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 7. Temporada
+INSERT INTO temporada (numero_episodios, Id_series, created_at, updated_at)
+VALUES (10, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 8. Episódios
+INSERT INTO episodios (titulo, id_temporada, created_at, updated_at)
+VALUES ('Winter Is Coming', 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 9. Histórico
+INSERT INTO historico (episodio_assistido, tempo_assistido, temporada, id_perfil_usuario, id_sinopse, created_at, updated_at)
+VALUES (1, '00:45:00', 1, 1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 10. Sinopse Autores
+INSERT INTO sinopse_autores (id_sinopse, id_autor, created_at, updated_at)
+VALUES (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 11. Sinopse Gêneros
+INSERT INTO sinopse_generos (id_sinopse, id_genero, created_at, updated_at)
+VALUES (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- 12. Sinopse Temporadas
+INSERT INTO sinopse_temporadas (id_sinopse, id_temporada, created_at, updated_at)
+VALUES (1, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+
+

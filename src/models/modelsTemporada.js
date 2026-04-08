@@ -9,6 +9,10 @@ const Temporada = sequealize.define(
         autoIncrement: true,
         primaryKey: true,
     },
+    id_series: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     numero_episodios : {
         type: DataTypes.INTEGER
     }
@@ -21,21 +25,6 @@ const Temporada = sequealize.define(
     }
     
 )
-
-const series = sequealize.models.Series;
-
-if (series) {
-    Temporada.belongsTo(series, {
-        as: 'id_series',
-        foreignKey: {
-            name: 'id_series',
-            allowNull: false,
-            field: 'Id_series'
-        },
-        onDelete: 'NO ACTION',
-        onUpdate: 'NO ACTION'
-    });
-}
 
 
 export default Temporada

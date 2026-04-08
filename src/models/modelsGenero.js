@@ -10,7 +10,7 @@ const Genero = sequealize.define(
         autoIncrement: true,
         primaryKey: true,
     },
-    Genero: {
+    genero: {
         type: DataTypes.STRING,
         allowNull: false
     },

@@ -34,7 +34,7 @@ const Dados_Usuarios = sequealize.define(
             allowNull: false,
             field: 'id_plano_usuario',
             references: {
-                model : 'Planos',
+                model : 'planos',
                 key: 'id'
             }
         }

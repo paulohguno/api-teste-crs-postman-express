@@ -3,7 +3,7 @@ import { DataTypes } from "sequelize";
 
 
 const Planos = sequealize.define(
-    'Planos',
+    'planos',
     {
     id:{
         type: DataTypes.INTEGER,
@@ -21,9 +21,8 @@ const Planos = sequealize.define(
     valor_plano: {
         type: DataTypes.FLOAT
     },
-    Plano_ativo: {
+    plano_ativo: {
         type: DataTypes.BOOLEAN,
-        allowNull : false,
         autoIncrement : false
     }
     },

@@ -1,4 +1,4 @@
-import SinAutores from "../controllers/controllerSinAutores.js"
+import SinTemporada from "../controllers/controllerSinTemporada.js"
 
 export default (app) => {
     app.get('/perfisUsuarios', perfisUsuariosController.get);

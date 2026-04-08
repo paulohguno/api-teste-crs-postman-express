@@ -23,7 +23,6 @@ const Temporada = sequealize.define(
 )
 
 const series = sequealize.models.Series;
-const episodios = sequealize.models.Episodios;
 
 if (series) {
     Temporada.belongsTo(series, {
@@ -32,19 +31,6 @@ if (series) {
             name: 'id_series',
             allowNull: false,
             field: 'Id_series'
-        },
-        onDelete: 'NO ACTION',
-        onUpdate: 'NO ACTION'
-    });
-}
-
-if (episodios) {
-    Temporada.belongsTo(episodios, {
-        as: 'id_ep',
-        foreignKey: {
-            name: 'id_ep',
-            allowNull: false,
-            field: 'Id_ep'
         },
         onDelete: 'NO ACTION',
         onUpdate: 'NO ACTION'

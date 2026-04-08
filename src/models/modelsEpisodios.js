@@ -3,7 +3,7 @@ import { DataTypes } from "sequelize";
 import Temporada from "./modelsTemporada.js"
 
 const Episodios = sequealize.define(
-    'historico',
+    'episodios',
     {
     id:{
         type: DataTypes.INTEGER,
@@ -13,6 +13,15 @@ const Episodios = sequealize.define(
     titulo : {
         type: DataTypes.STRING,
         allowNull: true
+    },
+    id_temporada: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'id_temporada',
+        references: {
+            model: 'temporada',
+            key: 'id'
+        }
     }
     
 },
@@ -25,12 +34,12 @@ const Episodios = sequealize.define(
     
 )
 
-Episodios.belongsTo(temporada, {
-    as: 'perfil_usuario',
+    Episodios.belongsTo(Temporada, {
+        as: 'temporada',
     foreignKey: {
         name: 'id_temporada',
         allowNull: false,
-        field: 'Id_temporada'
+            field: 'id_temporada'
     },
     onDelete: 'NO ACTION',
     onUpdate: 'NO ACTION'

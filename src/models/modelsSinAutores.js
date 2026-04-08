@@ -1,5 +1,7 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
+import Autores from "./modelsAutores.js";
+import Sinopse from "./modelsSinpse.js";
 
 const SinopseAutores = sequealize.define(
     'sinopse_autores',
@@ -36,33 +38,27 @@ const SinopseAutores = sequealize.define(
     }
 );
 
-const sinopseModel = sequealize.models.sinopse;
-const autoresModel = sequealize.models.autores;
+SinopseAutores.belongsTo(Autores, {
+    as: 'autor',
+    foreignKey: {
+        name: 'id_autor',
+        allowNull: false,
+        field: 'id_autor'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
 
-if (sinopseModel) {
-    SinopseAutores.belongsTo(sinopseModel, {
-        as: 'sinopse',
-        foreignKey: {
-            name: 'id_sinopse',
-            allowNull: false,
-            field: 'id_sinopse'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    });
-}
+SinopseAutores.belongsTo(Sinopse, {
+    as: 'sinopse',
+    foreignKey: {
+        name: 'id_sinopse',
+        allowNull: false,
+        field: 'id_sinopse'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
 
-if (autoresModel) {
-    SinopseAutores.belongsTo(autoresModel, {
-        as: 'autor',
-        foreignKey: {
-            name: 'id_autor',
-            allowNull: false,
-            field: 'id_autor'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    });
-}
 
 export default SinopseAutores;

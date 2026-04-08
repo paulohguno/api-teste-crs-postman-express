@@ -1,5 +1,7 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
+import Sinopse from "./modelsSinpse.js";
+import Genero from "./modelsGenero.js";
 
 const SinopseGenero = sequealize.define(
     'sinopse_generos',
@@ -36,33 +38,26 @@ const SinopseGenero = sequealize.define(
     }
 );
 
-const sinopseModel = sequealize.models.sinopse;
-const generoModel = sequealize.models.genero;
+SinopseGenero.belongsTo(Sinopse, {
+    as: 'sinopse',
+    foreignKey: {
+        name: 'id_sinopse',
+        allowNull: false,
+        field: 'id_sinopse'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
 
-if (sinopseModel) {
-    SinopseGenero.belongsTo(sinopseModel, {
-        as: 'sinopse',
-        foreignKey: {
-            name: 'id_sinopse',
-            allowNull: false,
-            field: 'id_sinopse'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    });
-}
-
-if (generoModel) {
-    SinopseGenero.belongsTo(generoModel, {
-        as: 'genero',
-        foreignKey: {
-            name: 'id_genero',
-            allowNull: false,
-            field: 'id_genero'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    });
-}
+SinopseGenero.belongsTo(Genero, {
+    as: 'genero',
+    foreignKey: {
+        name: 'id_genero',
+        allowNull: false,
+        field: 'id_genero'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
 
 export default SinopseGenero;

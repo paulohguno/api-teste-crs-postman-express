@@ -1,5 +1,5 @@
 import Sinopse from '../models/modelsSinpse.js';
-import SinopseAutores from '../models/modelsSeriesEAutores.js';
+import SinopseAutores from '../models/modelsSinAutores.js';
 import SinopseGenero from '../models/modelsSinGenero.js';
 import SinopseTemporada from '../models/modelsSinTemporada.js';
 

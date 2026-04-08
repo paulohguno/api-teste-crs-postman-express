@@ -1,5 +1,7 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
+import Sinopse from "./modelsSinpse.js";
+import Temporada from "./modelsTemporada.js";
 
 const SinopseTemporada = sequealize.define(
     'sinopse_temporadas',
@@ -36,33 +38,26 @@ const SinopseTemporada = sequealize.define(
     }
 );
 
-const sinopseModel = sequealize.models.sinopse;
-const temporadaModel = sequealize.models.temporada;
+SinopseTemporada.belongsTo(Sinopse, {
+    as: 'sinopse',
+    foreignKey: {
+        name: 'id_sinopse',
+        allowNull: false,
+        field: 'id_sinopse'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
 
-if (sinopseModel) {
-    SinopseTemporada.belongsTo(sinopseModel, {
-        as: 'sinopse',
-        foreignKey: {
-            name: 'id_sinopse',
-            allowNull: false,
-            field: 'id_sinopse'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    });
-}
-
-if (temporadaModel) {
-    SinopseTemporada.belongsTo(temporadaModel, {
-        as: 'temporada',
-        foreignKey: {
-            name: 'id_temporada',
-            allowNull: false,
-            field: 'id_temporada'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-    });
-}
+SinopseTemporada.belongsTo(Temporada, {
+    as: 'temporada',
+    foreignKey: {
+        name: 'id_temporada',
+        allowNull: false,
+        field: 'id_temporada'
+    },
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
 
 export default SinopseTemporada;

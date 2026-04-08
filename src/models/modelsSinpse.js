@@ -3,7 +3,7 @@ import { DataTypes } from "sequelize";
 import Temporada from "./modelsTemporada.js";
 import Genero from "./modelsGenero.js";
 import Autores from "./modelsAutores.js";
-import SinopseAutores from "./modelsSeriesEAutores.js";
+import SinopseAutores from "./modelsSinAutores.js";
 import SinopseGenero from "./modelsSinGenero.js";
 import SinopseTemporada from "./modelsSinTemporada.js";
 

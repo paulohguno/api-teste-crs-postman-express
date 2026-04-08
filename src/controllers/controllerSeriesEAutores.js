@@ -1,4 +1,4 @@
-import Series from '../models/modelsSeriesEAutores.js';
+import Series from '../models/modelsSinAutores.js';
 
 const get = async (req, res ) => {
     try{

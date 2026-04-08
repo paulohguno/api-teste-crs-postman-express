@@ -1,11 +1,11 @@
-import Dados_Usuarios from "../models/modelsUsuarios.js";
+import DadosUsuarios from "../models/modelsUsuarios.js";
 
 const get = async (req, res ) => {
     try{
-        const dados = await Tarefa.findAll();
+        const dados = await DadosUsuarios.findAll();
         return res.status(200).send({
             type: 'sucess',
-            message: 'top ',
+            message: 'usuarios listados com sucesso',
             data : dados
 
         })
@@ -32,7 +32,7 @@ const create = async (req, res) => {
         })
     }
 
-    const retorno = await Dados_Usuarios.create(req.body);
+    const retorno = await DadosUsuarios.create(req.body);
 
     return res.status(201).send({
         type: 'sucess',
@@ -62,20 +62,20 @@ const getcomid = async (req, res) => {
             });
         }
 
-        const tarefa = await Tarefa.findByPk(idNumero);
+        const usuario = await DadosUsuarios.findByPk(idNumero);
 
-        if (!tarefa) {
+        if (!usuario) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'usuario nao encontrado',
                 data: []
             });
         }
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa encontrada',
-            data: tarefa
+            message: 'usuario encontrado',
+            data: usuario
         });
     } catch (error) {
         return res.status(500).send({
@@ -89,7 +89,7 @@ const getcomid = async (req, res) => {
 const destroy = async (req, res) => {
     try{
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
-        const dado = await Tarefa.findOne({
+        const dado = await DadosUsuarios.findOne({
             where: { 
                 id
             }
@@ -98,14 +98,14 @@ const destroy = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'usuario nao encontrado',
                 data: []
             });
         }
         await dado.destroy();
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa deletada com sucesso',
+            message: 'usuario deletado com sucesso',
             data: []
         });
 
@@ -125,7 +125,7 @@ const update = async (req, res) => {
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
         const requisicao = req.body;
 
-        const dado = await Tarefa.findOne({
+        const dado = await DadosUsuarios.findOne({
             where: { 
                 id
             }
@@ -134,7 +134,7 @@ const update = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'usuario nao encontrado',
                 data: []
             });
         }
@@ -144,7 +144,7 @@ const update = async (req, res) => {
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa atualizada com sucesso',
+            message: 'usuario atualizado com sucesso',
             data: dado
         });
     } catch (error) {

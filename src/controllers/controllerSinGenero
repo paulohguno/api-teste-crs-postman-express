@@ -2,10 +2,10 @@ import SinopseGenero from '../models/modelsSinGenero.js';
 
 const get = async (req, res ) => {
     try{
-        const dados = await Tarefa.findAll();
+        const dados = await SinopseGenero.findAll();
         return res.status(200).send({
             type: 'sucess',
-            message: 'top ',
+            message: 'sinopse generos listados com sucesso',
             data : dados
 
         })
@@ -27,7 +27,7 @@ const create = async (req, res) => {
         })
     }
 
-    const retorno = await Series.create(req.body);
+    const retorno = await SinopseGenero.create(req.body);
 
     return res.status(201).send({
         type: 'sucess',
@@ -57,20 +57,20 @@ const getcomid = async (req, res) => {
             });
         }
 
-        const tarefa = await Tarefa.findByPk(idNumero);
+        const sinopseGenero = await SinopseGenero.findByPk(idNumero);
 
-        if (!tarefa) {
+        if (!sinopseGenero) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'sinopse genero nao encontrado',
                 data: []
             });
         }
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa encontrada',
-            data: tarefa
+            message: 'sinopse genero encontrado',
+            data: sinopseGenero
         });
     } catch (error) {
         return res.status(500).send({
@@ -84,7 +84,7 @@ const getcomid = async (req, res) => {
 const destroy = async (req, res) => {
     try{
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
-        const dado = await Tarefa.findOne({
+        const dado = await SinopseGenero.findOne({
             where: { 
                 id
             }
@@ -93,14 +93,14 @@ const destroy = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'sinopse genero nao encontrado',
                 data: []
             });
         }
         await dado.destroy();
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa deletada com sucesso',
+            message: 'sinopse genero deletado com sucesso',
             data: []
         });
 
@@ -120,7 +120,7 @@ const update = async (req, res) => {
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
         const requisicao = req.body;
 
-        const dado = await Tarefa.findOne({
+        const dado = await SinopseGenero.findOne({
             where: { 
                 id
             }
@@ -129,7 +129,7 @@ const update = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'sinopse genero nao encontrado',
                 data: []
             });
         }
@@ -139,7 +139,7 @@ const update = async (req, res) => {
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa atualizada com sucesso',
+            message: 'sinopse genero atualizado com sucesso',
             data: dado
         });
     } catch (error) {

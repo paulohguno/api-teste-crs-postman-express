@@ -1,11 +1,11 @@
-import Generos from '../models/modelsGenero';
+import Genero from '../models/modelsGenero.js';
 
 const get = async (req, res ) => {
     try{
-        const dados = await Tarefa.findAll();
+        const dados = await Genero.findAll();
         return res.status(200).send({
             type: 'sucess',
-            message: 'top ',
+            message: 'generos listados com sucesso',
             data : dados
 
         })
@@ -27,7 +27,7 @@ const create = async (req, res) => {
         })
     }
 
-    const retorno = await Series.create(req.body);
+    const retorno = await Genero.create(req.body);
 
     return res.status(201).send({
         type: 'sucess',
@@ -57,20 +57,20 @@ const getcomid = async (req, res) => {
             });
         }
 
-        const tarefa = await Tarefa.findByPk(idNumero);
+        const genero = await Genero.findByPk(idNumero);
 
-        if (!tarefa) {
+        if (!genero) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'genero nao encontrado',
                 data: []
             });
         }
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa encontrada',
-            data: tarefa
+            message: 'genero encontrado',
+            data: genero
         });
     } catch (error) {
         return res.status(500).send({
@@ -84,7 +84,7 @@ const getcomid = async (req, res) => {
 const destroy = async (req, res) => {
     try{
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
-        const dado = await Tarefa.findOne({
+        const dado = await Genero.findOne({
             where: { 
                 id
             }
@@ -93,14 +93,14 @@ const destroy = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'genero nao encontrado',
                 data: []
             });
         }
         await dado.destroy();
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa deletada com sucesso',
+            message: 'genero deletado com sucesso',
             data: []
         });
 
@@ -120,7 +120,7 @@ const update = async (req, res) => {
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
         const requisicao = req.body;
 
-        const dado = await Tarefa.findOne({
+        const dado = await Genero.findOne({
             where: { 
                 id
             }
@@ -129,7 +129,7 @@ const update = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'genero nao encontrado',
                 data: []
             });
         }
@@ -139,7 +139,7 @@ const update = async (req, res) => {
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa atualizada com sucesso',
+            message: 'genero atualizado com sucesso',
             data: dado
         });
     } catch (error) {

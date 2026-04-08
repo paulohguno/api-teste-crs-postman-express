@@ -2,10 +2,10 @@ import Planos from '../models/modelsPlanos.js';
 
 const get = async (req, res ) => {
     try{
-        const dados = await Tarefa.findAll();
+        const dados = await Planos.findAll();
         return res.status(200).send({
             type: 'sucess',
-            message: 'top ',
+            message: 'planos listados com sucesso',
             data : dados
 
         })
@@ -57,20 +57,20 @@ const getcomid = async (req, res) => {
             });
         }
 
-        const tarefa = await Tarefa.findByPk(idNumero);
+        const plano = await Planos.findByPk(idNumero);
 
-        if (!tarefa) {
+        if (!plano) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'plano nao encontrado',
                 data: []
             });
         }
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa encontrada',
-            data: tarefa
+            message: 'plano encontrado',
+            data: plano
         });
     } catch (error) {
         return res.status(500).send({
@@ -84,7 +84,7 @@ const getcomid = async (req, res) => {
 const destroy = async (req, res) => {
     try{
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
-        const dado = await Tarefa.findOne({
+        const dado = await Planos.findOne({
             where: { 
                 id
             }
@@ -93,14 +93,14 @@ const destroy = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'plano nao encontrado',
                 data: []
             });
         }
         await dado.destroy();
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa deletada com sucesso',
+            message: 'plano deletado com sucesso',
             data: []
         });
 
@@ -120,7 +120,7 @@ const update = async (req, res) => {
         const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
         const requisicao = req.body;
 
-        const dado = await Tarefa.findOne({
+        const dado = await Planos.findOne({
             where: { 
                 id
             }
@@ -129,7 +129,7 @@ const update = async (req, res) => {
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'tarefa nao encontrada',
+                message: 'plano nao encontrado',
                 data: []
             });
         }
@@ -139,7 +139,7 @@ const update = async (req, res) => {
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'tarefa atualizada com sucesso',
+            message: 'plano atualizado com sucesso',
             data: dado
         });
     } catch (error) {

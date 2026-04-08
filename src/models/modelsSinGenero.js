@@ -1,16 +1,32 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
-import Sinopse from "./modelsSinpse.js";
 
-
-const SinGenero = sequealize.define(
-    'historico',
+const SinopseGenero = sequealize.define(
+    'sinopse_generos',
     {
-    id:{
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-    }
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        id_sinopse: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'id_sinopse',
+            references: {
+                model: 'sinopse',
+                key: 'id'
+            }
+        },
+        id_genero: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'id_genero',
+            references: {
+                model: 'genero',
+                key: 'id'
+            }
+        }
     },
     {
         freezeTableName: true,
@@ -18,32 +34,35 @@ const SinGenero = sequealize.define(
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     }
-    
-)
+);
 
+const sinopseModel = sequealize.models.sinopse;
+const generoModel = sequealize.models.genero;
 
-SinGenero.belongsTo(Genero, {
-    as: 'id_Genero',
-    foreignKey: {
-        name: 'id_Genero',
-        allowNull: false,
-        field: 'Id_Genero'
-    },
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION'
-});
+if (sinopseModel) {
+    SinopseGenero.belongsTo(sinopseModel, {
+        as: 'sinopse',
+        foreignKey: {
+            name: 'id_sinopse',
+            allowNull: false,
+            field: 'id_sinopse'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    });
+}
 
-SinGenero.belongsTo(Sinopse, {
-    as: 'id_sin',
-    foreignKey: {
-        name: 'id_Sin',
-        allowNull: false,
-        field: 'Id_Sin'
-    },
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION'
-});
+if (generoModel) {
+    SinopseGenero.belongsTo(generoModel, {
+        as: 'genero',
+        foreignKey: {
+            name: 'id_genero',
+            allowNull: false,
+            field: 'id_genero'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    });
+}
 
-
-
-export default SinGenero
+export default SinopseGenero;

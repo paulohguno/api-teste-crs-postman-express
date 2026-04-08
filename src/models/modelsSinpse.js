@@ -3,6 +3,9 @@ import { DataTypes } from "sequelize";
 import Temporada from "./modelsTemporada.js";
 import Genero from "./modelsGenero.js";
 import Autores from "./modelsAutores.js";
+import SinopseAutores from "./modelsSeriesEAutores.js";
+import SinopseGenero from "./modelsSinGenero.js";
+import SinopseTemporada from "./modelsSinTemporada.js";
 
 
 const Sinopse = sequealize.define(
@@ -30,37 +33,25 @@ const Sinopse = sequealize.define(
     
 )
 
-Sinopse.belongsTo(Temporada, {
-    as: 'temporada',
-    foreignKey: {
-        name: 'id_temporada',
-        allowNull: false,
-        field: 'id_temporada'
-    },
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION'
+Sinopse.belongsToMany(Autores, {
+    as: 'autores',
+    through: SinopseAutores,
+    foreignKey: 'id_sinopse',
+    otherKey: 'id_autor'
 });
 
-Sinopse.belongsTo(Autores, {
-    as: 'autor',
-    foreignKey: {
-        name: 'id_autores',
-        allowNull: false,
-        field: 'id_autores'
-    },
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION'
+Sinopse.belongsToMany(Genero, {
+    as: 'generos',
+    through: SinopseGenero,
+    foreignKey: 'id_sinopse',
+    otherKey: 'id_genero'
 });
 
-Sinopse.belongsTo(Genero, {
-    as: 'genero',
-    foreignKey: {
-        name: 'id_genero',
-        allowNull: false,
-        field: 'id_genero'
-    },
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION'
+Sinopse.belongsToMany(Temporada, {
+    as: 'temporadas',
+    through: SinopseTemporada,
+    foreignKey: 'id_sinopse',
+    otherKey: 'id_temporada'
 });
 
 

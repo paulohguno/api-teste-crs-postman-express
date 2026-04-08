@@ -1,43 +1,68 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
 
-
-const Series = sequealize.define(
-    'historico',
+const SinopseAutores = sequealize.define(
+    'sinopse_autores',
     {
-    id:{
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        id_sinopse: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'id_sinopse',
+            references: {
+                model: 'sinopse',
+                key: 'id'
+            }
+        },
+        id_autor: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'id_autor',
+            references: {
+                model: 'autores',
+                key: 'id'
+            }
+        }
     },
-    numero_episodios : {
-        type: DataTypes.INTEGER
-    }
-},
     {
         freezeTableName: true,
         timestamps: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     }
-    
-)
+);
 
-Series.belongsTo(Autores, {
-    as: 'id_autores',
-    foreignKey: {
-        name: 'id_autores',
-        allowNull: false,
-        field: 'Id_autores'
-    },
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION'
-});
+const sinopseModel = sequealize.models.sinopse;
+const autoresModel = sequealize.models.autores;
 
+if (sinopseModel) {
+    SinopseAutores.belongsTo(sinopseModel, {
+        as: 'sinopse',
+        foreignKey: {
+            name: 'id_sinopse',
+            allowNull: false,
+            field: 'id_sinopse'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    });
+}
 
+if (autoresModel) {
+    SinopseAutores.belongsTo(autoresModel, {
+        as: 'autor',
+        foreignKey: {
+            name: 'id_autor',
+            allowNull: false,
+            field: 'id_autor'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+    });
+}
 
-
-
-
-
-export default Series
+export default SinopseAutores;

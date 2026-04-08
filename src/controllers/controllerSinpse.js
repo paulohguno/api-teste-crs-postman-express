@@ -1,4 +1,7 @@
 import Sinopse from '../models/modelsSinpse.js';
+import SinopseAutores from '../models/modelsSeriesEAutores.js';
+import SinopseGenero from '../models/modelsSinGenero.js';
+import SinopseTemporada from '../models/modelsSinTemporada.js';
 
 const get = async (req, res ) => {
     try{
@@ -27,7 +30,50 @@ const create = async (req, res) => {
         })
     }
 
-    const retorno = await Sinopse.create(req.body);
+    const {
+        data_lancamento,
+        informacoes,
+        id_autor,
+        id_autores,
+        id_genero,
+        id_temporada
+    } = req.body;
+
+    if (!data_lancamento) {
+        return res.status(400).send({
+            type: 'error',
+            message: 'data_lancamento e obrigatorio',
+            data: []
+        })
+    }
+
+    const retorno = await Sinopse.create({
+        data_lancamento,
+        informacoes
+    });
+
+    const autorId = id_autor || id_autores;
+
+    if (autorId) {
+        await SinopseAutores.create({
+            id_sinopse: retorno.id,
+            id_autor: autorId
+        });
+    }
+
+    if (id_genero) {
+        await SinopseGenero.create({
+            id_sinopse: retorno.id,
+            id_genero
+        });
+    }
+
+    if (id_temporada) {
+        await SinopseTemporada.create({
+            id_sinopse: retorno.id,
+            id_temporada
+        });
+    }
 
     return res.status(201).send({
         type: 'sucess',
@@ -134,8 +180,33 @@ const update = async (req, res) => {
             });
         }
 
-        Object.keys(requisicao).forEach(campo => dado[campo] = requisicao[campo]);
+        const {
+            id_autor,
+            id_autores,
+            id_genero,
+            id_temporada,
+            ...camposSinopse
+        } = requisicao;
+
+        Object.keys(camposSinopse).forEach(campo => dado[campo] = camposSinopse[campo]);
         await dado.save();
+
+        const autorId = id_autor || id_autores;
+
+        if (autorId) {
+            await SinopseAutores.destroy({ where: { id_sinopse: dado.id } });
+            await SinopseAutores.create({ id_sinopse: dado.id, id_autor: autorId });
+        }
+
+        if (id_genero) {
+            await SinopseGenero.destroy({ where: { id_sinopse: dado.id } });
+            await SinopseGenero.create({ id_sinopse: dado.id, id_genero });
+        }
+
+        if (id_temporada) {
+            await SinopseTemporada.destroy({ where: { id_sinopse: dado.id } });
+            await SinopseTemporada.create({ id_sinopse: dado.id, id_temporada });
+        }
 
         return res.status(200).send({
             type: 'sucess',

@@ -1,0 +1,9 @@
+http://localhost:3333/episodios?id_temporada=5
+
+http://localhost:3333/historico/seriemaisassistida
+
+
+
+rota, em alta, lançamentos, para você - get
+busca - get
+

@@ -1,4 +1,37 @@
 import Historico from "../models/modelsHistorico.js";
+import { sequealize as sequelize } from "../config/index.js";
+
+
+
+
+
+const getfiltro = async (req, res) => {
+    try{
+        const dados = await Historico.findAll(
+            {
+                attributes: [
+                    'id_perfil_usuario',
+                    [sequelize.fn('COUNT', sequelize.col('id_perfil_usuario')), 'total_assistido']
+                ],
+                group: ['id_perfil_usuario'],
+                order: [[sequelize.literal('total_assistido'), 'DESC']],
+                limit: 10
+            }
+        )
+        return res.status(200).send({
+            type: 'sucess',
+            message: 'serie mais assistida listada com sucesso',
+            data: dados
+        })
+    }
+    catch (error) {
+        return res.status(500).send({
+            type: 'error',
+            message: 'erro de servidor',
+            data: error.message,
+        })
+    }
+}
 
 
 const get = async (req, res ) => {
@@ -47,32 +80,29 @@ const create = async (req, res) => {
     }
 }
 
+
 const getcomid = async (req, res) => {
     try {
-        const { id } = req.params;
-        const idNumero = Number(id);
+        const { id_usuario } = req.params;
+        const idUsuarioNumero = Number(id_usuario);
 
-        if (!Number.isInteger(idNumero) || idNumero <= 0) {
+        if (!Number.isInteger(idUsuarioNumero) || idUsuarioNumero <= 0) {
             return res.status(400).send({
                 type: 'error',
-                message: 'id invalido',
+                message: 'id_usuario invalido',
                 data: []
             });
         }
 
-        const historico = await Historico.findByPk(idNumero);
-
-        if (!historico) {
-            return res.status(404).send({
-                type: 'error',
-                message: 'historico nao encontrado',
-                data: []
-            });
-        }
+        const historico = await Historico.findAll({
+            where: { id_perfil_usuario: idUsuarioNumero },
+            order: [['data_assistida', 'DESC']],
+            limit: 10
+        });
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'historico encontrado',
+            message: 'historico listado com sucesso',
             data: historico
         });
     } catch (error) {
@@ -80,7 +110,7 @@ const getcomid = async (req, res) => {
             type: 'error',
             message: 'erro de servidor',
             data: error.message,
-        });
+        })
     }
 }
 
@@ -155,6 +185,7 @@ const update = async (req, res) => {
 }
 
 export default {
+    getfiltro,
     get,
     create,
     getcomid,

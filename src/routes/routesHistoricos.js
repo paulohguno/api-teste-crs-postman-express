@@ -1,6 +1,7 @@
 import historicoController from "../controllers/controllerHistorico.js";
 
 export default (app) => {
+    app.get('/historico/seriemaisassistida', historicoController.getfiltro);
     app.get('/historico', historicoController.get);
     app.post('/historico/create', historicoController.create);
     app.get('/historico/getcomid/:id', historicoController.getcomid);

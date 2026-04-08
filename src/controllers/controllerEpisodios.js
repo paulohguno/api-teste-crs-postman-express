@@ -2,7 +2,24 @@ import Episodios from '../models/modelsEpisodios.js';
 
 const get = async (req, res ) => {
     try{
-        const dados = await Episodios.findAll();
+        const { id_temporada } = req.query;
+        const where = {};
+
+        if (id_temporada !== undefined) {
+            const idTemporadaNumero = Number(id_temporada);
+
+            if (!Number.isInteger(idTemporadaNumero) || idTemporadaNumero <= 0) {
+                return res.status(400).send({
+                    type: 'error',
+                    message: 'id_temporada invalido',
+                    data: []
+                });
+            }
+
+            where.id_temporada = idTemporadaNumero;
+        }
+
+        const dados = await Episodios.findAll({ where });
         return res.status(200).send({
             message: 'episodios listados com sucesso',
             type: 'sucess',

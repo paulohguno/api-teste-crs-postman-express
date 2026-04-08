@@ -2,10 +2,10 @@ import Temporada from '../models/modelsTemporada.js';
 
 const get = async (req, res ) => {
     try{
-        const dados = await Sinopse.findAll();
+        const dados = await Temporada.findAll();
         return res.status(200).send({
             type: 'sucess',
-            message: 'sinopses listadas com sucesso',
+            message: 'temporadas listadas com sucesso',
             data : dados
 
         })
@@ -19,67 +19,24 @@ const get = async (req, res ) => {
 }
 const create = async (req, res) => {
     try {
-    if (!req.body || Object.keys(req.body).length === 0) {
-        return res.status(400).send({
-            type: 'error',
-            message: 'dados sao obrigatorios',
-            data: []
-        })
-    }
+        if (!req.body || Object.keys(req.body).length === 0) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'dados sao obrigatorios',
+                data: []
+            })
+        }
 
-    const {
-        data_lancamento,
-        informacoes,
-        id_autor,
-        id_autores,
-        id_genero,
-        id_temporada
-    } = req.body;
+        const retorno = await Temporada.create(req.body);
 
-    if (!data_lancamento) {
-        return res.status(400).send({
-            type: 'error',
-            message: 'data_lancamento e obrigatorio',
-            data: []
-        })
-    }
-
-    const retorno = await Sinopse.create({
-        data_lancamento,
-        informacoes
-    });
-
-    const autorId = id_autor || id_autores;
-
-    if (autorId) {
-        await SinopseAutores.create({
-            id_sinopse: retorno.id,
-            id_autor: autorId
+        return res.status(201).send({
+            type: 'sucess',
+            message: 'temporada criada com sucesso',
+            data: retorno
         });
-    }
-
-    if (id_genero) {
-        await SinopseGenero.create({
-            id_sinopse: retorno.id,
-            id_genero
-        });
-    }
-
-    if (id_temporada) {
-        await SinopseTemporada.create({
-            id_sinopse: retorno.id,
-            id_temporada
-        });
-    }
-
-    return res.status(201).send({
-        type: 'sucess',
-        message: 'sinopse criada com sucesso',
-        data: retorno
-    });
 
     }catch (error) {
-        res.status(500).send({
+        return res.status(500).send({
             type: 'error',
             message: 'erro de servidor',
             data: error.message,
@@ -100,20 +57,20 @@ const getcomid = async (req, res) => {
             });
         }
 
-        const sinopse = await Sinopse.findByPk(idNumero);
+        const temporada = await Temporada.findByPk(idNumero);
 
-        if (!sinopse) {
+        if (!temporada) {
             return res.status(404).send({
                 type: 'error',
-                message: 'sinopse nao encontrada',
+                message: 'temporada nao encontrada',
                 data: []
             });
         }
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'sinopse encontrada',
-            data: sinopse
+            message: 'temporada encontrada',
+            data: temporada
         });
     } catch (error) {
         return res.status(500).send({
@@ -126,24 +83,29 @@ const getcomid = async (req, res) => {
 
 const destroy = async (req, res) => {
     try{
-        const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
-        const dado = await Sinopse.findOne({
-            where: { 
-                id
-            }
-        });
+        const idNumero = Number(req.params.id);
+
+        if (!Number.isInteger(idNumero) || idNumero <= 0) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'id invalido',
+                data: []
+            });
+        }
+
+        const dado = await Temporada.findByPk(idNumero);
 
         if (!dado) {
             return res.status(404).send({
                 type: 'error',
-                message: 'sinopse nao encontrada',
+                message: 'temporada nao encontrada',
                 data: []
             });
         }
         await dado.destroy();
         return res.status(200).send({
             type: 'sucess',
-            message: 'sinopse deletada com sucesso',
+            message: 'temporada deletada com sucesso',
             data: []
         });
 
@@ -160,54 +122,33 @@ const destroy = async (req, res) => {
 
 const update = async (req, res) => {
     try{
-        const id = req.params.id ? req.params.id.replace(/\D/g, '') : null;
+        const idNumero = Number(req.params.id);
         const requisicao = req.body;
 
-        const dado = await Sinopse.findOne({
-            where: { 
-                id
-            }
-        });
-
-        if (!dado) {
-            return res.status(404).send({
+        if (!Number.isInteger(idNumero) || idNumero <= 0) {
+            return res.status(400).send({
                 type: 'error',
-                message: 'sinopse nao encontrada',
+                message: 'id invalido',
                 data: []
             });
         }
 
-        const {
-            id_autor,
-            id_autores,
-            id_genero,
-            id_temporada,
-            ...camposSinopse
-        } = requisicao;
+        const dado = await Temporada.findByPk(idNumero);
 
-        Object.keys(camposSinopse).forEach(campo => dado[campo] = camposSinopse[campo]);
+        if (!dado) {
+            return res.status(404).send({
+                type: 'error',
+                message: 'temporada nao encontrada',
+                data: []
+            });
+        }
+
+        Object.keys(requisicao).forEach(campo => dado[campo] = requisicao[campo]);
         await dado.save();
-
-        const autorId = id_autor || id_autores;
-
-        if (autorId) {
-            await SinopseAutores.destroy({ where: { id_sinopse: dado.id } });
-            await SinopseAutores.create({ id_sinopse: dado.id, id_autor: autorId });
-        }
-
-        if (id_genero) {
-            await SinopseGenero.destroy({ where: { id_sinopse: dado.id } });
-            await SinopseGenero.create({ id_sinopse: dado.id, id_genero });
-        }
-
-        if (id_temporada) {
-            await SinopseTemporada.destroy({ where: { id_sinopse: dado.id } });
-            await SinopseTemporada.create({ id_sinopse: dado.id, id_temporada });
-        }
 
         return res.status(200).send({
             type: 'sucess',
-            message: 'sinopse atualizada com sucesso',
+            message: 'temporada atualizada com sucesso',
             data: dado
         });
     } catch (error) {

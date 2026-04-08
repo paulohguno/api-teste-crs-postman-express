@@ -1,9 +1,9 @@
-import Autores from "../controllers/controllerAutores"
+import autoresController from "../controllers/controllerAutores.js";
 
 export default (app) => {
-    app.get('/perfisUsuarios', perfisUsuariosController.get);
-    app.post('/perfisUsuarios/create', perfisUsuariosController.create);
-    app.get('/perfisUsuarios/getcomid/:id', perfisUsuariosController.getcomid);
-    app.delete('/perfisUsuarios/destroy/:id', perfisUsuariosController.destroy);
-    app.patch('/perfisUsuarios/update/:id', perfisUsuariosController.update);
+    app.get('/autores', autoresController.get);
+    app.post('/autores/create', autoresController.create);
+    app.get('/autores/getcomid/:id', autoresController.getcomid);
+    app.delete('/autores/destroy/:id', autoresController.destroy);
+    app.patch('/autores/update/:id', autoresController.update);
 };

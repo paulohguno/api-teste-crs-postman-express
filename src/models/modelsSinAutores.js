@@ -1,7 +1,6 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
 import Autores from "./modelsAutores.js";
-import Sinopse from "./modelsSinpse.js";
 
 const SinopseAutores = sequealize.define(
     'sinopse_autores',
@@ -44,17 +43,6 @@ SinopseAutores.belongsTo(Autores, {
         name: 'id_autor',
         allowNull: false,
         field: 'id_autor'
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-});
-
-SinopseAutores.belongsTo(Sinopse, {
-    as: 'sinopse',
-    foreignKey: {
-        name: 'id_sinopse',
-        allowNull: false,
-        field: 'id_sinopse'
     },
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'

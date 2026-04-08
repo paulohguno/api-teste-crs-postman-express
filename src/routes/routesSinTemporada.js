@@ -1,9 +1,9 @@
-import SinTemporada from "../controllers/controllerSinTemporada.js"
+import sinTemporadaController from "../controllers/controllerSinTemporada.js";
 
 export default (app) => {
-    app.get('/perfisUsuarios', perfisUsuariosController.get);
-    app.post('/perfisUsuarios/create', perfisUsuariosController.create);
-    app.get('/perfisUsuarios/getcomid/:id', perfisUsuariosController.getcomid);
-    app.delete('/perfisUsuarios/destroy/:id', perfisUsuariosController.destroy);
-    app.patch('/perfisUsuarios/update/:id', perfisUsuariosController.update);
+    app.get('/sinTemporada', sinTemporadaController.get);
+    app.post('/sinTemporada/create', sinTemporadaController.create);
+    app.get('/sinTemporada/getcomid/:id', sinTemporadaController.getcomid);
+    app.delete('/sinTemporada/destroy/:id', sinTemporadaController.destroy);
+    app.patch('/sinTemporada/update/:id', sinTemporadaController.update);
 };

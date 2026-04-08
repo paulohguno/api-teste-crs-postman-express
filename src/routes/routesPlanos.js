@@ -1,9 +1,9 @@
-import Diretores from "../controllers/controllerPlanos.js"
+import planosController from "../controllers/controllerPlanos.js";
 
 export default (app) => {
-    app.get('/perfisUsuarios', perfisUsuariosController.get);
-    app.post('/perfisUsuarios/create', perfisUsuariosController.create);
-    app.get('/perfisUsuarios/getcomid/:id', perfisUsuariosController.getcomid);
-    app.delete('/perfisUsuarios/destroy/:id', perfisUsuariosController.destroy);
-    app.patch('/perfisUsuarios/update/:id', perfisUsuariosController.update);
+    app.get('/planos', planosController.get);
+    app.post('/planos/create', planosController.create);
+    app.get('/planos/getcomid/:id', planosController.getcomid);
+    app.delete('/planos/destroy/:id', planosController.destroy);
+    app.patch('/planos/update/:id', planosController.update);
 };

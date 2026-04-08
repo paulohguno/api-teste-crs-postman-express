@@ -1,0 +1,15 @@
+     table_name     |    column_name    | foreign_table_name | foreign_column_name 
+--------------------+-------------------+--------------------+---------------------
+ dados_usuarios     | id_plano_usuario  | Planos             | id
+ episodios          | id_temporada      | temporada          | id
+ historico          | id_perfil_usuario | perfis_usuarios    | id
+ historico          | id_sinopse        | sinopse            | id
+ perfis_usuarios    | id_dados_usuario  | dados_usuarios     | id
+ sinopse_autores    | id_autor          | autores            | id
+ sinopse_autores    | id_sinopse        | sinopse            | id
+ sinopse_generos    | id_genero         | genero             | id
+ sinopse_generos    | id_sinopse        | sinopse            | id
+ sinopse_temporadas | id_sinopse        | sinopse            | id
+ sinopse_temporadas | id_temporada      | temporada          | id
+(11 rows)
+

@@ -1,6 +1,5 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
-import Sinopse from "./modelsSinpse.js";
 import Temporada from "./modelsTemporada.js";
 
 const SinopseTemporada = sequealize.define(
@@ -38,17 +37,6 @@ const SinopseTemporada = sequealize.define(
     }
 );
 
-SinopseTemporada.belongsTo(Sinopse, {
-    as: 'sinopse',
-    foreignKey: {
-        name: 'id_sinopse',
-        allowNull: false,
-        field: 'id_sinopse'
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-});
-
 SinopseTemporada.belongsTo(Temporada, {
     as: 'temporada',
     foreignKey: {
@@ -56,8 +44,8 @@ SinopseTemporada.belongsTo(Temporada, {
         allowNull: false,
         field: 'id_temporada'
     },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
 });
 
 export default SinopseTemporada;

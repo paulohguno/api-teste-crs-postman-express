@@ -1,6 +1,5 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
-import Sinopse from "./modelsSinpse.js";
 import Genero from "./modelsGenero.js";
 
 const SinopseGenero = sequealize.define(
@@ -37,17 +36,6 @@ const SinopseGenero = sequealize.define(
         updatedAt: 'updated_at'
     }
 );
-
-SinopseGenero.belongsTo(Sinopse, {
-    as: 'sinopse',
-    foreignKey: {
-        name: 'id_sinopse',
-        allowNull: false,
-        field: 'id_sinopse'
-    },
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-});
 
 SinopseGenero.belongsTo(Genero, {
     as: 'genero',

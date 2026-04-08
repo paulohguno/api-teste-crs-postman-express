@@ -1,4 +1,4 @@
-import Series from '../models/modelsSinGenero';
+import SinopseGenero from '../models/modelsSinGenero.js';
 
 const get = async (req, res ) => {
     try{

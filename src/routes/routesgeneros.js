@@ -1,9 +1,9 @@
-import Diretores from "../controllers/controllerGenero.js"
+import generosController from "../controllers/controllerGenero";
 
 export default (app) => {
-    app.get('/perfisUsuarios', perfisUsuariosController.get);
-    app.post('/perfisUsuarios/create', perfisUsuariosController.create);
-    app.get('/perfisUsuarios/getcomid/:id', perfisUsuariosController.getcomid);
-    app.delete('/perfisUsuarios/destroy/:id', perfisUsuariosController.destroy);
-    app.patch('/perfisUsuarios/update/:id', perfisUsuariosController.update);
+    app.get('/generos', generosController.get);
+    app.post('/generos/create', generosController.create);
+    app.get('/generos/getcomid/:id', generosController.getcomid);
+    app.delete('/generos/destroy/:id', generosController.destroy);
+    app.patch('/generos/update/:id', generosController.update);
 };

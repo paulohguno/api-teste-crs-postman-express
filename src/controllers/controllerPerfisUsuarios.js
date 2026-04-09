@@ -17,6 +17,20 @@ const get = async (req, res ) => {
         })
     }
 }
+
+const getemalta = async (req, res) => {
+    try {
+        
+        }
+        catch (error) {
+            res.status(500).send({
+                type: 'error',
+                message: 'erro na busca',
+                data: error.message,
+            })
+        }
+    }
+
 const create = async (req, res) => {
     try {
     if (!req.body || Object.keys(req.body).length === 0) {

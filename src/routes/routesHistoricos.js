@@ -4,7 +4,7 @@ export default (app) => {
     app.get('/historico/seriemaisassistida', historicoController.getfiltro);
     app.get('/historico', historicoController.get);
     app.post('/historico/create', historicoController.create);
-    app.get('/historico/getcomid/:id', historicoController.getcomid);
+    app.get('/historico/getcomid/:id_usuario', historicoController.getcomid);
     app.delete('/historico/destroy/:id', historicoController.destroy);
     app.patch('/historico/update/:id', historicoController.update);
 };

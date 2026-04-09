@@ -1,4 +1,8 @@
+import { sequealize as sequelize } from "../config/index.js";
 import DadosUsuarios from "../models/modelsUsuarios.js";
+import PerfisUsuarios from "../models/modelsPerfisUsuarios.js";
+import Historico from "../models/modelsHistorico.js";
+import Sinopse from "../models/modelsSinpse.js";
 
 const get = async (req, res ) => {
     try{
@@ -19,7 +23,68 @@ const get = async (req, res ) => {
 }
 
 
+const getlancamentos = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const idUsuarioNumero = Number(id);
 
+        if (!Number.isInteger(idUsuarioNumero) || idUsuarioNumero <= 0) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'id invalido',
+                data: []
+            });
+        }
+
+        const usuario = await DadosUsuarios.findByPk(idUsuarioNumero);
+
+        if (!usuario) {
+            return res.status(404).send({
+                type: 'error',
+                message: 'usuario nao encontrado',
+                data: []
+            });
+        }
+
+        const dados = await Historico.findAll({
+            attributes: [
+                'id_sinopse',
+                [sequelize.fn('COUNT', sequelize.col('historico.id_sinopse')), 'total_assistido']
+            ],
+            include: [
+                {
+                    model: PerfisUsuarios,
+                    as: 'perfil_usuario',
+                    attributes: [],
+                    where: { id_dados_usuario: idUsuarioNumero }
+                },
+                {
+                    model: Sinopse,
+                    as: 'Sinopse',
+                    attributes: ['id', 'data_lancamento', 'informacoes']
+                }
+            ],
+            group: ['historico.id_sinopse', 'Sinopse.id'],
+            order: [
+                [sequelize.literal('total_assistido'), 'DESC'],
+                [{ model: Sinopse, as: 'Sinopse' }, 'data_lancamento', 'DESC']
+            ],
+            limit: 1
+        });
+
+        return res.status(200).send({
+            type: 'sucess',
+            message: 'lancamento mais assistido encontrado com sucesso',
+            data: dados
+        });
+    } catch (error) {
+        return res.status(500).send({
+            type: 'error',
+            message: 'erro na busca de lancamentos',
+            data: error.message,
+        });
+    }
+}
 
 
 const create = async (req, res) => {
@@ -158,6 +223,7 @@ const update = async (req, res) => {
 
 export default {
     get,
+    getlancamentos,
     create,
     getcomid,
     destroy,

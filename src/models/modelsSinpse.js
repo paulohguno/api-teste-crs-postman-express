@@ -22,7 +22,11 @@ const Sinopse = sequealize.define(
     },
     informacoes: {
         type: DataTypes.STRING,
-    }
+    },
+        nome: {
+            type: DataTypes.STRING,
+            allowNull: false    
+    }   
     },
     {
         freezeTableName: true,

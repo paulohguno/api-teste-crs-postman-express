@@ -3,6 +3,10 @@ import SinopseAutores from '../models/modelsSinAutores.js';
 import SinopseGenero from '../models/modelsSinGenero.js';
 import SinopseTemporada from '../models/modelsSinTemporada.js';
 
+
+
+
+
 const get = async (req, res ) => {
     try{
         const dados = await Sinopse.findAll();

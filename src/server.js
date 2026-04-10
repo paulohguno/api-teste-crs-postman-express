@@ -2,10 +2,13 @@ import 'dotenv/config';
 import express from 'express'
 import routes from './routes/index.js';
 import './models/index.js'
+import fileUpload from 'express-fileupload';
 const app = express()
 
 app.use(express.json());
-
+app.use(fileUpload({
+    createParentPath: true
+}))
 
 
 routes(app)

@@ -3,6 +3,64 @@ import DadosUsuarios from "../models/modelsUsuarios.js";
 import PerfisUsuarios from "../models/modelsPerfisUsuarios.js";
 import Historico from "../models/modelsHistorico.js";
 import Sinopse from "../models/modelsSinpse.js";
+import fileUpload from "express-fileupload";
+import deletarfiles from "../utils/files/deletarfiles.js";
+import trocarImagem from "../utils/files/atualizarFiles.js";
+import bcrypt from "bcrypt";
+
+
+/////////////////////////////////////////////////////////
+const createre = async (req, res) => {
+    try {
+        const{
+            nome,
+            email,
+            senha,
+        } = req.body;
+        if (!nome || !email || !senha) {
+            throw new Error('dados faltando');
+        }
+
+
+    }catch (error) {        res.status(400).send({
+            type: 'error',
+            message: error.message,
+            data: []
+        });
+    }
+};
+    const register = async (req, res) => {
+    if (usuarioExistente) {
+        return res.status(400).send({
+            type: 'error',
+            message: 'usuario ja existe',
+            data: []
+        });
+    }
+            
+const passwordHash = await bcrypt.hash(senha, 10);
+
+const usuario = await Usuario.create({
+    nome,
+    email,
+    senha: passwordHash
+});
+
+return res.status(201).send({
+    type: 'sucess',
+    message: 'usuario criado com sucesso',
+    data: usuario
+});
+
+}
+
+/////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 const get = async (req, res ) => {
     try{
@@ -160,10 +218,13 @@ const getlancamentos = async (req, res) => {
 
 const create = async (req, res) => {
     try {
+
+        console.log(req.body);
+        
     if (!req.body || Object.keys(req.body).length === 0) {
         return res.status(400).send({
             type: 'error',
-            message: 'dados sao obrigatorios',
+            message: 'falta de informacoes',
             data: []
         })
     }
@@ -172,7 +233,7 @@ const create = async (req, res) => {
 
     return res.status(201).send({
         type: 'sucess',
-        message: 'usuario criado com sucesso',
+        message: 'usuario criado ',
         data: retorno
     });
 
@@ -183,7 +244,18 @@ const create = async (req, res) => {
             data: error.message,
         })
     }
+    if(req.file && req.file.upoloadsFiles){
+        let upload = await fileUpload(req.file.upoloadsFiles, {
+            id : retorno.id,
+            tipo: req.query.tipo || 'imagem',
+            tabela: 'usuarios',
+        });
+        retorno.arquivo = upload.path;
+        await retorno.save();
+    }
+    
 }
+
 
 const getcomid = async (req, res) => {
     try {
@@ -230,6 +302,18 @@ const destroy = async (req, res) => {
                 id
             }
         });
+        //funcao remover imagem 
+        try{
+            //este ponto .arquivo vem do model
+            //este dado salva o resultado da busca do id 
+            if (dado.arquivo) {
+                await deletarfiles(dado.arquivo, {
+                    id: dado,
+                });
+            }   
+        } catch (error) {
+            console.error('Erro ao deletar arquivo:', error);
+        }
 
         if (!dado) {
             return res.status(404).send({
@@ -266,6 +350,18 @@ const update = async (req, res) => {
                 id
             }
         });
+        //funcao trocar a imagem
+        try{
+            //este ponto .arquivo vem do model
+            //este dado salva o resultado da busca do id 
+            if (dado.arquivo) {
+                await trocarImagem(dado.arquivo, {
+                    id: dado,
+                });
+            }   
+        } catch (error) {
+            console.error('ERRO ao alterar imagem:', error);
+        }
 
         if (!dado) {
             return res.status(404).send({

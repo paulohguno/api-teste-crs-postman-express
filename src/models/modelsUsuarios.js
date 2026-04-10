@@ -29,6 +29,9 @@ const Dados_Usuarios = sequealize.define(
         localizacao : {
             type: DataTypes.STRING
         },
+        arquivo:{
+            type: DataTypes.STRING
+        },
         id_plano_usuario:{
             type: DataTypes.INTEGER,
             allowNull: false,

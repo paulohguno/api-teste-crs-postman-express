@@ -5,59 +5,6 @@ import Historico from "../models/modelsHistorico.js";
 import Sinopse from "../models/modelsSinpse.js";
 import fileUpload from "express-fileupload";
 import deletarfiles from "../utils/files/deletarfiles.js";
-import trocarImagem from "../utils/files/atualizarFiles.js";
-import bcrypt from "bcrypt";
-
-
-/////////////////////////////////////////////////////////
-const createre = async (req, res) => {
-    try {
-        const{
-            nome,
-            email,
-            senha,
-        } = req.body;
-        if (!nome || !email || !senha) {
-            throw new Error('dados faltando');
-        }
-
-
-    }catch (error) {        res.status(400).send({
-            type: 'error',
-            message: error.message,
-            data: []
-        });
-    }
-};
-    const register = async (req, res) => {
-    if (usuarioExistente) {
-        return res.status(400).send({
-            type: 'error',
-            message: 'usuario ja existe',
-            data: []
-        });
-    }
-            
-const passwordHash = await bcrypt.hash(senha, 10);
-
-const usuario = await Usuario.create({
-    nome,
-    email,
-    senha: passwordHash
-});
-
-return res.status(201).send({
-    type: 'sucess',
-    message: 'usuario criado com sucesso',
-    data: usuario
-});
-
-}
-
-/////////////////////////////////////////////////////////
-
-
-
 
 
 
@@ -355,12 +302,32 @@ const update = async (req, res) => {
             //este ponto .arquivo vem do model
             //este dado salva o resultado da busca do id 
             if (dado.arquivo) {
-                await trocarImagem(dado.arquivo, {
+                await deletarfiles(dado.arquivo, {
                     id: dado,
                 });
             }   
         } catch (error) {
             console.error('ERRO ao alterar imagem:', error);
+        }
+        try{
+            //este .request.file e para pegar o arquivo enviado na requisicao
+            //o if serve para verficar se tem  um arquivo enviado
+
+            if (req.file && req.file.upoloadsFiles) {
+
+                let upload = await fileUpload(req.file.upoloadsFiles, {
+                    id : dado.id,
+                    tipo: req.query.tipo || 'imagem',
+                    tabela: 'usuarios',
+                });
+                //o dado.arquivo e para atualizar o caminho do arquivo no banco de dados
+                //o upload.path e para salvar o caminho atualizado no banco de dados
+                dado.arquivo = upload.path;
+                //o await serve para esperar o servidor salvar o novo endereco 
+                await dado.save();
+                    }
+        } catch (error) {
+            console.error('ERRO ao fazer upload da nova imagem:', error);
         }
 
         if (!dado) {

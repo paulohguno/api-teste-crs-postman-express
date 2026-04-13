@@ -11,6 +11,7 @@ import Episodios from "./modelsEpisodios.js";
 import SinopseAutores from "./modelsSinAutores.js";
 import SinopseGenero from "./modelsSinGenero.js";
 import SinopseTemporada from "./modelsSinTemporada.js";
+import Autentic from "./modelsAutentic.js";
 
 
 
@@ -27,5 +28,6 @@ import SinopseTemporada from "./modelsSinTemporada.js";
     await SinopseGenero.sync({ force: true});
     await SinopseTemporada.sync({ force: true});
     await Historico.sync({ force : true});
+    await Autentic.sync({ force: true});
     
 })();

@@ -1,53 +1,19 @@
-import Autenticacao from "../models/modelsAutentic.js";
+import Autentic from "../models/modelsAutentic.js";
 import bcrypt from 'bcrypt';
-import { generateToken, verifyTokenUtil } from '../utils/tokenManager.js';
-
-const getcomid = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        const resposta = await Autenticacao.findOne({
-            where: {
-                id
-            }
-        });
-
-        if (!resposta) {
-            return res.status(404).send({
-                type: 'error',
-                message: 'nao existe'
-            });
-        }
-
-        return res.status(200).send({
-            type: 'success',
-            message: 'deu boa',
-            data: resposta,
-        });
-
-    } catch (error) {
-        res.status(500).send({
-            type: 'error',
-            message: 'Ops! ocorreu um erro',
-            data: error.message,
-        });
-    }
-}
-
+import jwt from 'jsonwebtoken'
 
 const register = async (req, res) => {
     try {
         const {
             email,
-            nome,
             password
         } = req.body;
 
-        if (!email || !nome || !password) {
+        if (!email || !password) {
             throw new Error('dados faltando');
         }
 
-        const usuarioExistente = await Autenticacao.findOne({
+        const usuarioExistente = await Autentic.findOne({
             where: {
                 email
             }
@@ -62,25 +28,15 @@ const register = async (req, res) => {
 
         const passwordHash = await bcrypt.hash(password, 10);
 
-        const usuario = await Autenticacao.create({
+        const usuario = await Autentic.create({
             email,
-            nome,
             passwordHash
         });
 
-        const token = generateToken({
-            idUsuario: usuario.id,
-            nomeUsuario: usuario.nome,
-            emailUsuario: usuario.email
-        });
-
-        return res.status(201).send({
+        return res.status(200).send({
             type: 'success',
-            message: 'usuario criado com sucesso',
-            data: {
-                usuario: usuario,
-                token: token
-            }
+            message: 'deu boa',
+            data: usuario,
         });
 
     } catch (error) {
@@ -103,7 +59,7 @@ const login = async (req, res) => {
             throw new Error('dados faltando');
         }
 
-        const usuarioExistente = await Autenticacao.findOne({
+        const usuarioExistente = await Autentic.findOne({
             where: {
                 email
             }
@@ -116,11 +72,16 @@ const login = async (req, res) => {
             });
         }
 
-        const token = generateToken({
-            idUsuario: usuarioExistente.id,
-            nomeUsuario: usuarioExistente.nome,
-            emailUsuario: usuarioExistente.email
-        });
+        const token = jwt.sign(
+            {
+                idUsuario: usuarioExistente.id,
+                emailUsuario: usuarioExistente.email
+            },
+            process.env.SECRET_KEY,
+            {
+                expiresIn: '8h'
+            }
+        )
 
         return res.status(200).send({
             type: 'success',
@@ -148,7 +109,7 @@ const getUserByToken = (req, res) => {
             });
         }
 
-        const resposta = verifyTokenUtil(token);
+        const resposta = jwt.verify(token, process.env.SECRET_KEY)
 
         return res.json({
             data: resposta

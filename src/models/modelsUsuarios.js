@@ -1,6 +1,7 @@
 import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
 import Planos from "./modelsPlanos.js";
+import Autentic from "./modelsAutentic.js";
 
 const Dados_Usuarios = sequealize.define(
     'dados_usuarios',
@@ -48,6 +49,18 @@ const Dados_Usuarios = sequealize.define(
         createdAt: 'created_at',
         updatedAt : 'updated_at'
     }
+)
+
+Dados_Usuarios.belongsTo(Autentic, {
+    as: 'autenticacao_usuario',
+    foreignKey: {
+        name: 'id_autenticacao_usuario',
+        allowNull: false,
+        field: 'id_autenticacao_usuario'
+    },
+    onDelete: 'NO ACTION',
+    onUpdate: 'NO ACTION'
+}
 )
 
 Dados_Usuarios.belongsTo(Planos, {

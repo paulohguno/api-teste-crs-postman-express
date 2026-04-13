@@ -9,4 +9,4 @@ export const sequealize = new Sequelize (
         host : process.env.POSTGRES_HOST,
         dialect: 'postgres'
     }
-)
+);

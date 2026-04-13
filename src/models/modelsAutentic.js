@@ -1,9 +1,9 @@
-import { Sequelize } from "..config/index.js";
+import { sequealize } from "../config/index.js";
 import { DataTypes } from "sequelize";
-import Dados_Usuarios from "./modelsUsuarios";
 
 
-const Autenticacao = Sequelize.define(
+
+const Autentic = sequealize.define(
     'autenticacao',
     {
         id: {
@@ -11,20 +11,25 @@ const Autenticacao = Sequelize.define(
             autoIncrement: true,
             primaryKey: true,
         },
+        email: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+            unique: true,
+        },
         passwordHash: {
             field: 'password_hash',
-        type: DataTypes.STRING(1000)
+            type: DataTypes.STRING(1000),
+            allowNull: false,
         },
-})
-
-Autenticacao.belongsTo(Dados_Usuarios, {
-    as: 'dados_usuario',
-    foreignKey: {
-        name: 'id_dados_usuario',
-        allowNull: false,
-        field: 'id_dados_usuario'
     },
-    onDelete: 'NO ACTION',
-})
+    {
+        freezeTableName: true,
+        timestamps: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
+)
 
-export default Autenticacao;    
+
+
+export default Autentic;    

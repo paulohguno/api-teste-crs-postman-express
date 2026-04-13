@@ -1,10 +1,9 @@
 
 import Autenticacao from "../controllers/controllerAutentic.js";
-
+import verifyToken from "../middlewares/verifyToken.js";
 
 export default (app) => {
-    app.get('/autentic', Autenticacao.get);
-    app.post('/autentic/register', Autenticacao.register);
-    app.post('/autentic/login', Autenticacao.login);
-    app.get('/autentic/user', Autenticacao.getUserByToken);
+    app.post('/autenticacao/register',  Autenticacao.register);
+    app.post('/autenticacao/login',  Autenticacao.login);
+    app.get('/autenticacao/user',  Autenticacao.getUserByToken);
 };

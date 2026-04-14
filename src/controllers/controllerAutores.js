@@ -3,6 +3,7 @@ import Autores from '../models/modelsAutores.js';
 
 const get = async (req, res ) => {
     try{
+        
         const dados = await Autores.findAll();
         return res.status(200).send({
             type: 'sucess',

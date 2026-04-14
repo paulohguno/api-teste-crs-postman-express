@@ -11,17 +11,15 @@ busca - get
 http://localhost:3333/autenticacao/register
 {
   "email": "teste@email.com",
-  "password": "123456789"
+  "password": "123456789",
+  "nivelAcesso": "2"
+  //2 adm e 1 user
 }
 //post
 http://localhost:3333/autenticacao/login
 
 
 //get
-//dados hash
-enviar a chave 
-exemplo 
-{
-   "bearer" : "chavehash"
-}
-
+em autorhization colocar o token gerado no login
+http://localhost:3333/autenticacao/user
+no type coloque bearer type 

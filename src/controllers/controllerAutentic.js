@@ -6,7 +6,8 @@ const register = async (req, res) => {
     try {
         const {
             email,
-            password
+            password,
+            nivelAcesso
         } = req.body;
 
         if (!email || !password) {
@@ -30,7 +31,8 @@ const register = async (req, res) => {
 
         const usuario = await Autentic.create({
             email,
-            passwordHash
+            passwordHash,
+            nivelAcesso
         });
 
         return res.status(200).send({
@@ -52,7 +54,7 @@ const login = async (req, res) => {
     try {
         const {
             email,
-            password
+            password,
         } = req.body
 
         if (!email || !password) {
@@ -72,10 +74,12 @@ const login = async (req, res) => {
             });
         }
 
+
         const token = jwt.sign(
             {
                 idUsuario: usuarioExistente.id,
-                emailUsuario: usuarioExistente.email
+                emailUsuario: usuarioExistente.email,
+                NivelDeAcesso: usuarioExistente.nivelAcesso
             },
             process.env.SECRET_KEY,
             {

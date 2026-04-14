@@ -1,4 +1,8 @@
 
+
+
+
+import Autentic from "./modelsAutentic.js";
 import DadosUsuarios from "./modelsUsuarios.js";
 import Planos from "./modelsPlanos.js";
 import PerfisUsuarios from "./modelsPerfisUsuarios.js";
@@ -11,12 +15,17 @@ import Episodios from "./modelsEpisodios.js";
 import SinopseAutores from "./modelsSinAutores.js";
 import SinopseGenero from "./modelsSinGenero.js";
 import SinopseTemporada from "./modelsSinTemporada.js";
-import Autentic from "./modelsAutentic.js";
+
+
+
+
+
 
 
 
 (async () => {
     await Planos.sync({ force: true});
+    await Autentic.sync({ force: true});
     await DadosUsuarios.sync({ force: true});
     await PerfisUsuarios.sync({ force: true});
     await Genero.sync({ force: true});
@@ -28,6 +37,5 @@ import Autentic from "./modelsAutentic.js";
     await SinopseGenero.sync({ force: true});
     await SinopseTemporada.sync({ force: true});
     await Historico.sync({ force : true});
-    await Autentic.sync({ force: true});
     
 })();

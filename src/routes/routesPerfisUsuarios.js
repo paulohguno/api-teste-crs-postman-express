@@ -1,5 +1,6 @@
 import perfisUsuariosController from "../controllers/controllerPerfisUsuarios.js";
 import verifyToken from "../middlewares/verifyToken.js";
+import admVerify from "../middlewares/verifyAdm.js";
 
 export default (app) => {
     app.get('/perfisUsuarios', verifyToken, perfisUsuariosController.get);

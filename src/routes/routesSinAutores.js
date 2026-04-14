@@ -1,5 +1,6 @@
 import sinAutoresController from "../controllers/controllerSinAutores";
 
+
 export default (app) => {
     app.get('/sinAutores', sinAutoresController.get);
     app.post('/sinAutores/create', sinAutoresController.create);

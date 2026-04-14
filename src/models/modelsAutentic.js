@@ -1,5 +1,5 @@
 import { sequealize } from "../config/index.js";
-import { DataTypes } from "sequelize";
+import { DataTypes, INTEGER } from "sequelize";
 
 
 
@@ -20,6 +20,12 @@ const Autentic = sequealize.define(
             field: 'password_hash',
             type: DataTypes.STRING(1000),
             allowNull: false,
+
+        },nivelAcesso: {
+            type: DataTypes.INTEGER, 
+            allowNull: false,
+            defaultValue: 1,
+            //nivel 1 usuario, 2 adm.
         },
     },
     {

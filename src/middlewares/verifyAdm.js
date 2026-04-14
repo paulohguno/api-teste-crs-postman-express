@@ -2,34 +2,48 @@ import jwt from 'jsonwebtoken';
 import Usuario from '../models/modelsUsuarios.js';
 import Autentic from '../models/modelsAutentic.js';
 
-const verifyToken = async (req, res, next) => {
+
+
+const admVerify = async (req, res, next) => {
     try {
-        const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
+        const token = req.headers.authorization 
+            ? req.headers.authorization.split(' ')[1] 
+            : null;
 
         if (!token) {
             return res.status(403).send({
                 type: 'error',
-                message: 'Usuario não autenticado!',
+                message: 'sem autorizacao',
                 data: []
             });
         }
 
-        const usuario = jwt.verify(token, process.env.SECRET_KEY);
+        const adm = jwt.verify(token, process.env.SECRET_KEY);
 
-        const usuarioExiste = await Usuario.findOne({
+        const usuario = await Autentic.findOne({
             where: {
-                id: usuario.idUsuario
+                id: adm.idUsuario  
             }
         });
 
-        if (!usuarioExiste) {
+        if (!usuario) {
             return res.status(403).send({
                 type: 'error',
                 message: 'Usuario não autenticado!',
                 data: []
             });
         }
+
+        if (usuario.nivelAcesso !== 2) {
+            return res.status(403).send({
+                type: 'error',
+                message: 'Usuario não autorizado!',
+                data: []
+            });
+        }
+
         next();
+
     } catch (error) {
         res.status(500).send({
             type: 'error',
@@ -37,7 +51,6 @@ const verifyToken = async (req, res, next) => {
             data: error.message,
         });
     }
-}
+};
 
-
-export default verifyToken
+export default admVerify;

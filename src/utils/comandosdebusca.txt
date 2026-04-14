@@ -6,3 +6,22 @@ http://localhost:3333/dadosUsuarios/lancamentos/1
 
 busca - get
 
+
+//post
+http://localhost:3333/autenticacao/register
+{
+  "email": "teste@email.com",
+  "password": "123456789"
+}
+//post
+http://localhost:3333/autenticacao/login
+
+
+//get
+//dados hash
+enviar a chave 
+exemplo 
+{
+   "bearer" : "chavehash"
+}
+

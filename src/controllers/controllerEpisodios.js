@@ -1,4 +1,24 @@
 import Episodios from '../models/modelsEpisodios.js';
+import chaveApi from '../service/servicoDeAPI.js';
+
+
+const getapi = async (req, res) => {
+    try {
+        const dados = await chaveApi('/episodios');
+        return res.status(200).send({
+            message: 'dados da api externa listados com sucesso',
+            type: 'sucess',
+            data : dados
+        });
+    } catch (error) {
+        return res.status(500).send({
+            type: 'error',
+            message: 'erro de servidor',
+            data: error.message,
+        });
+    }
+};
+
 
 const get = async (req, res ) => {
     try{
@@ -178,6 +198,7 @@ const update = async (req, res) => {
 };
 
 export default {
+    getapi,
     get,
     create,
     getcomid,

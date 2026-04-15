@@ -2,9 +2,85 @@ import Sinopse from '../models/modelsSinpse.js';
 import SinopseAutores from '../models/modelsSinAutores.js';
 import SinopseGenero from '../models/modelsSinGenero.js';
 import SinopseTemporada from '../models/modelsSinTemporada.js';
+import chaveApi from '../service/servicoDeAPI.js';
 
+const extrairNome = (tmdbItem) => tmdbItem.title || tmdbItem.original_title || tmdbItem.name || '';
 
+const salvarSinopseTmdb = async (tmdbItem) => {
+    const nome = extrairNome(tmdbItem).trim();
+    const dataLancamento = tmdbItem.release_date || tmdbItem.first_air_date || null;
+    const informacoes = tmdbItem.overview || '';
 
+    if (!nome) {
+        throw new Error('titulo da TMDB nao encontrado');
+    }
+
+    if (!dataLancamento) {
+        throw new Error('data de lancamento nao encontrada na TMDB');
+    }
+
+    const payload = {
+        nome,
+        data_lancamento: dataLancamento,
+        informacoes,
+    };
+
+    const existente = await Sinopse.findOne({
+        where: { nome }
+    });
+
+    if (existente) {
+        existente.data_lancamento = payload.data_lancamento;
+        existente.informacoes = payload.informacoes;
+        await existente.save();
+
+        return existente;
+    }
+
+    return Sinopse.create(payload);
+};
+
+const BuscarNomeApi = async (req, res) => {
+    try {
+        const nome = (req.query.nome || req.body?.nome || req.params.nome || '').trim();
+
+        if (!nome) {
+            return res.status(400).send({
+                type: 'error',
+                message: 'nome e obrigatorio',
+                data: []
+            });
+        }
+
+        const tmdb = await chaveApi(`/search/movie?query=${encodeURIComponent(nome)}&language=pt-BR&page=1`);
+        const filme = Array.isArray(tmdb.results) ? tmdb.results[0] : null;
+
+        if (!filme) {
+            return res.status(404).send({
+                type: 'error',
+                message: 'nenhum resultado encontrado na tmdb',
+                data: []
+            });
+        }
+
+        const sinopseSalva = await salvarSinopseTmdb(filme);
+
+        return res.status(200).send({
+            type: 'sucess',
+            message: 'sinopse encontrada na tmdb e salva com sucesso',
+            data: {
+                tmdb: filme,
+                sinopse: sinopseSalva
+            }
+        });
+    } catch (error) {
+        return res.status(500).send({
+            type: 'error',
+            message: 'erro de servidor',
+            data: error.message,
+        });
+    }
+};
 
 
 const get = async (req, res ) => {
@@ -227,6 +303,7 @@ const update = async (req, res) => {
 }
 
 export default {
+    BuscarNomeApi,
     get,
     create,
     getcomid,

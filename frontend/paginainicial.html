@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STREAMX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./cor.css">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #E50914;
+            --red-dark: #b20710;
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --surface2: #1c1c1c;
+            --surface3: #242424;
+            --text: #ffffff;
+            --muted: #a0a0a0;
+            --card-w: 200px;
+            --card-h: 115px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            z-index: 100;
+            transition: background 0.3s;
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.98);
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: var(--red);
+            letter-spacing: 3px;
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-btn,
+        .bell-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.2s;
+            padding: 4px;
+        }
+
+        .search-btn:hover,
+        .bell-btn:hover {
+            color: white;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--red), #ff6b35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            height: 90vh;
+            min-height: 540px;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 48px 80px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to top, var(--bg) 0%, transparent 50%),
+                linear-gradient(to right, var(--bg) 0%, transparent 40%),
+                radial-gradient(ellipse at 70% 40%, rgba(229, 9, 20, 0.08) 0%, transparent 60%);
+        }
+
+        .hero-visual {
+            position: absolute;
+            inset: 0;
+            background:
+                url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1400&q=80&auto=format&fit=crop') center/cover no-repeat;
+            opacity: 0.35;
+            filter: saturate(0.7);
+        }
+
+        .hero-content {
+            position: relative;
+            max-width: 540px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(229, 9, 20, 0.15);
+            border: 1px solid rgba(229, 9, 20, 0.4);
+            color: #ff6b6b;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--red);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(52px, 7vw, 88px);
+            line-height: 0.92;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .hero-meta .score {
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        .hero-meta .dot {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--muted);
+        }
+
+        .hero-desc {
+            font-size: 15px;
+            line-height: 1.65;
+            color: #c0c0c0;
+            margin-bottom: 32px;
+            max-width: 440px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-play {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            color: black;
+            border: none;
+            padding: 13px 28px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-play:hover {
+            background: rgba(255, 255, 255, 0.88);
+            transform: scale(1.02);
+        }
+
+        .btn-play .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 12px solid black;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+
+        .btn-more {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            border: none;
+            padding: 13px 24px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            backdrop-filter: blur(8px);
+        }
+
+        .btn-more:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-more .info-icon {
+            width: 18px;
+            height: 18px;
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            padding: 0 0 60px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            margin-bottom: 16px;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-accent {
+            width: 3px;
+            height: 18px;
+            background: var(--red);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .see-all {
+            font-size: 12px;
+            color: var(--red);
+            text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .section:hover .see-all {
+            opacity: 1;
+        }
+
+        /* CAROUSEL */
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 10px;
+            padding: 8px 48px 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            transition: transform 0.3s;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .card {
+            flex-shrink: 0;
+            width: var(--card-w);
+            height: var(--card-h);
+            border-radius: 6px;
+            background: var(--surface2);
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                z-index 0s 0.3s,
+                box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.12);
+            z-index: 10;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                box-shadow 0.3s;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover .card-img {
+            opacity: 1;
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 12px;
+        }
+
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .card-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.3px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .card-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.7);
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .card-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+        }
+
+        .card-btn.play-btn {
+            background: white;
+            border-color: white;
+        }
+
+        .card-btn.play-btn::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 8px solid black;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            margin-left: 2px;
+        }
+
+        .card-btn.like-btn::after {
+            content: '♥';
+            color: white;
+            font-size: 10px;
+        }
+
+        .card-btn.add-btn::after {
+            content: '+';
+            color: white;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        /* FEATURED ROW (tall cards) */
+        .card-tall {
+            --card-h: 280px;
+            height: 280px;
+            width: 165px;
+        }
+
+        /* FADE EDGES */
+        .carousel-wrapper::before,
+        .carousel-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 60px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .carousel-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, var(--bg), transparent);
+        }
+
+        .carousel-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, var(--bg), transparent);
+        }
+
+        /* NAV ARROWS */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(20, 20, 20, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s, background 0.2s;
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel-wrapper:hover .arrow {
+            opacity: 1;
+        }
+
+        .arrow:hover {
+            background: rgba(229, 9, 20, 0.8);
+            border-color: var(--red);
+        }
+
+        .arrow-left {
+            left: 12px;
+        }
+
+        .arrow-right {
+            right: 12px;
+        }
+
+        /* TOP 10 */
+        .top10-card {
+            flex-shrink: 0;
+            width: 240px;
+            height: var(--card-h);
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            cursor: pointer;
+        }
+
+        .top10-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 100px;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15);
+            letter-spacing: -8px;
+            display: flex;
+            align-items: center;
+            padding-left: 4px;
+            min-width: 80px;
+        }
+
+        .top10-img-wrap {
+            flex: 1;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .top10-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* CONTINUE WATCHING */
+        .progress-card {
+            position: relative;
+        }
+
+        .progress-bar-wrap {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--red);
+            border-radius: 2px;
+        }
+
+        /* STATS BAR */
+        .stats-strip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 48px;
+            padding: 32px 48px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            margin: 20px 0 40px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 40px;
+            letter-spacing: 2px;
+            color: white;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .stat-divider {
+            width: 1px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="header">
+        <div class="logo">STREAMX</div>
+        <nav>
+            <a href="#" class="active">Início</a>
+            <a href="#">Séries</a>
+            <a href="#">Filmes</a>
+            <a href="#">Novidades</a>
+            <a href="#">Minha Lista</a>
+        </nav>
+        <div class="header-right">
+            <button class="search-btn">⌕</button>
+            <button class="bell-btn">🔔</button>
+            <div class="avatar">MR</div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-visual"></div>
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Em destaque hoje</div>
+            <h1 class="hero-title">O ÚLTIMO<br>HORIZONTE</h1>
+            <div class="hero-meta">
+                <span class="score">97% relevante</span>
+                <span class="dot"></span>
+                <span>2024</span>
+                <span class="dot"></span>
+                <span>2h 18min</span>
+                <span class="dot"></span>
+                <span>Ação · Sci-Fi</span>
+            </div>
+            <p class="hero-desc">Em um futuro próximo, uma equipe de astronautas parte em missão para salvar a
+                humanidade de um colapso iminente. Uma jornada épica onde cada decisão muda o destino de bilhões.</p>
+            <div class="hero-actions">
+                <button class="btn-play"><span class="play-icon"></span> Assistir</button>
+                <button class="btn-more"><span class="info-icon">i</span> Mais Informações</button>
+            </div>
+        </div>
+    </section>
+
+    <main>
+
+        <div class="stats-strip">
+            <div class="stat">
+                <div class="stat-value">18K+</div>
+                <div class="stat-label">Títulos</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <div class="stat-value">4K</div>
+                <div class="stat-label">Ultra HD</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <div class="stat-value">36</div>
+                <div class="stat-label">Idiomas</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <div class="stat-value">98%</div>
+                <div class="stat-label">Satisfação</div>
+            </div>
+        </div>
+
+        <section class="api-panel">
+            <div class="api-panel-title">Conexao com API</div>
+            <div class="api-panel-row">
+                <input id="api-email" class="api-input" type="email" placeholder="Email" autocomplete="username">
+                <input id="api-password" class="api-input" type="password" placeholder="Senha"
+                    autocomplete="current-password">
+                <button id="btn-login" class="api-btn">Entrar</button>
+                <button id="btn-load-sinopses" class="api-btn api-btn-secondary">Carregar sinopses</button>
+            </div>
+            <div id="api-status" class="api-status">Nao autenticado</div>
+        </section>
+
+        <!-- CONTINUE WATCHING -->
+        <div class="section" id="sec-continue">
+            <div class="section-header">
+                <div class="section-label">
+                    <div class="section-accent"></div>
+                    <div class="section-title">Continuar Assistindo</div>
+                </div>
+                <a href="#" class="see-all">Ver tudo →</a>
+            </div>
+            <div class="carousel-wrapper" id="cw-continue">
+                <button class="arrow arrow-left" onclick="scrollCarousel('cw-continue',-1)">‹</button>
+                <div class="carousel-track" id="track-continue"></div>
+                <button class="arrow arrow-right" onclick="scrollCarousel('cw-continue',1)">›</button>
+            </div>
+        </div>
+
+        <!-- TOP 10 -->
+        <div class="section" id="sec-top10">
+            <div class="section-header">
+                <div class="section-label">
+                    <div class="section-accent"></div>
+                    <div class="section-title">Top 10 no Brasil hoje</div>
+                </div>
+                <a href="#" class="see-all">Ver tudo →</a>
+            </div>
+            <div class="carousel-wrapper" id="cw-top10">
+                <button class="arrow arrow-left" onclick="scrollCarousel('cw-top10',-1)">‹</button>
+                <div class="carousel-track" id="track-top10"></div>
+                <button class="arrow arrow-right" onclick="scrollCarousel('cw-top10',1)">›</button>
+            </div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div id="dynamic-sections"></div>
+
+    </main>
+
+    <script src="./paginainicial.js" type="module"></script>
+</body>
+
+</html>

@@ -21,7 +21,7 @@ const Sinopse = sequealize.define(
         allowNull: false
     },
     informacoes: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
     },
         nome: {
             type: DataTypes.STRING,

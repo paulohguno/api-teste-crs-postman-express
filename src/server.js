@@ -21,6 +21,6 @@ routes(app)
 app.use(cors());
 
 app.listen(process.env.API_PORT, () => {
-    console.log('Server is running on port ' + process.env.API_PORT)
+    console.log('sistema rodando na porta ' + process.env.API_PORT)
 })
 
